@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyperagent-replay"
+version = "0.1.0"
+description = "Parse HyperAgent trajectories and replay them against a vLLM server."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "openai>=1.30.0",
+]
+
+[project.scripts]
+ha-trace-extract = "hyperagent_replay.extract:main"
+ha-trace-replay = "hyperagent_replay.replay:main"
+ha-trace-eval = "hyperagent_replay.evaluate:main"
+ha-trace-batch-extract = "hyperagent_replay.batch_extract:main"
+ha-trace-batch-replay = "hyperagent_replay.batch_replay:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
