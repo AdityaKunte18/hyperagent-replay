@@ -1,0 +1,1426 @@
+{
+  "phase": "extract",
+  "output_dir": "/projects/bewu/akunte2/hyperagent-replay/extracted",
+  "ordering": "lexicographic absolute path",
+  "offset": 0,
+  "limit": null,
+  "num_discovered_inputs": 28,
+  "num_inputs": 28,
+  "num_ok": 27,
+  "num_skipped_existing": 0,
+  "num_error": 1,
+  "results": [
+    {
+      "selection_index": 0,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/astropy__astropy-12907_human.json",
+      "output_path": "extracted/astropy__astropy-12907_human.extracted.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-12907",
+      "summary": {
+        "num_llm_turns": 115,
+        "num_turns_with_actions": 65,
+        "num_final_answer_turns": 13,
+        "response_counts": {
+          "Planner": 33,
+          "Inner-Navigator-Assistant": 61,
+          "Inner-Executor-Assistant": 13,
+          "Inner-Editor-Assistant": 8
+        },
+        "action_languages": {
+          "python": 58,
+          "bash": 7
+        },
+        "top_tool_names": {
+          "open_file._run": 38,
+          "python_exec": 11,
+          "echo": 7,
+          "open_file_gen._run": 3,
+          "get_all_symbols._run": 2,
+          "code_search._run": 2,
+          "get_folder_structure._run": 1,
+          "editor._run": 1
+        },
+        "avg_response_chars": 879.2782608695652,
+        "median_response_chars": 698,
+        "max_response_chars": 3887,
+        "num_trajectory_entries": 3551,
+        "num_events": 284,
+        "trajectory_restart_markers": 19,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 1,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/astropy__astropy-14365_human.json",
+      "output_path": "extracted/astropy__astropy-14365_human.extracted.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-14365",
+      "summary": {
+        "num_llm_turns": 385,
+        "num_turns_with_actions": 255,
+        "num_final_answer_turns": 30,
+        "response_counts": {
+          "Planner": 89,
+          "Inner-Navigator-Assistant": 159,
+          "Inner-Executor-Assistant": 26,
+          "Inner-Editor-Assistant": 111
+        },
+        "action_languages": {
+          "python": 235,
+          "bash": 20
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 103,
+          "open_file._run": 78,
+          "get_folder_structure._run": 15,
+          "editor._run": 13,
+          "python_exec": 11,
+          "python": 11,
+          "get_all_symbols._run": 9,
+          "echo": 5,
+          "code_search._run": 5,
+          "pytest": 3,
+          "python3": 1,
+          "go_to_def._run": 1
+        },
+        "avg_response_chars": 487.22597402597404,
+        "median_response_chars": 267,
+        "max_response_chars": 4434,
+        "num_trajectory_entries": 10535,
+        "num_events": 957,
+        "trajectory_restart_markers": 31,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "yes",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "yes",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "yes",
+          "Blurring role": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 2,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/astropy__astropy-6938_human.json",
+      "output_path": "extracted/astropy__astropy-6938_human.extracted.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-6938",
+      "summary": {
+        "num_llm_turns": 116,
+        "num_turns_with_actions": 68,
+        "num_final_answer_turns": 9,
+        "response_counts": {
+          "Planner": 29,
+          "Inner-Navigator-Assistant": 30,
+          "Inner-Executor-Assistant": 38,
+          "Inner-Editor-Assistant": 19
+        },
+        "action_languages": {
+          "python": 38,
+          "bash": 30
+        },
+        "top_tool_names": {
+          "python": 13,
+          "open_file._run": 11,
+          "get_folder_structure._run": 9,
+          "open_file_gen._run": 8,
+          "git": 8,
+          "editor._run": 4,
+          "./setup.py": 4,
+          "python_exec": 3,
+          "code_search._run": 2,
+          "ls": 2,
+          "cat": 2,
+          "get_all_symbols._run": 1,
+          "echo": 1
+        },
+        "avg_response_chars": 444.08620689655174,
+        "median_response_chars": 287.0,
+        "max_response_chars": 2999,
+        "num_trajectory_entries": 2610,
+        "num_events": 299,
+        "trajectory_restart_markers": 14,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "yes",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 3,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/astropy__astropy-7746_human.json",
+      "output_path": "extracted/astropy__astropy-7746_human.extracted.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-7746",
+      "summary": {
+        "num_llm_turns": 1527,
+        "num_turns_with_actions": 1006,
+        "num_final_answer_turns": 54,
+        "response_counts": {
+          "Planner": 359,
+          "Inner-Navigator-Assistant": 359,
+          "Inner-Editor-Assistant": 676,
+          "Inner-Executor-Assistant": 133
+        },
+        "action_languages": {
+          "python": 926,
+          "bash": 80
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 399,
+          "editor._run": 294,
+          "open_file._run": 149,
+          "python": 60,
+          "code_search._run": 35,
+          "get_folder_structure._run": 19,
+          "python_exec": 19,
+          "echo": 9,
+          "get_all_symbols._run": 4,
+          "run_test._run": 3,
+          "pytest": 3,
+          "ls": 3,
+          "timeout": 3,
+          "pip": 2
+        },
+        "avg_response_chars": 465.9266535690897,
+        "median_response_chars": 286,
+        "max_response_chars": 5142,
+        "num_trajectory_entries": 53244,
+        "num_events": 3865,
+        "trajectory_restart_markers": 69,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 4,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/django__django-10924_human.json",
+      "output_path": "extracted/django__django-10924_human.extracted.json",
+      "status": "ok",
+      "instance_id": "django__django-10924",
+      "summary": {
+        "num_llm_turns": 17,
+        "num_turns_with_actions": 8,
+        "num_final_answer_turns": 2,
+        "response_counts": {
+          "Planner": 5,
+          "Inner-Navigator-Assistant": 9,
+          "Inner-Editor-Assistant": 3
+        },
+        "action_languages": {
+          "python": 8
+        },
+        "top_tool_names": {
+          "open_file._run": 4,
+          "get_folder_structure._run": 1,
+          "open_file_gen._run": 1,
+          "editor._run": 1,
+          "find_file._run": 1
+        },
+        "avg_response_chars": 765.0,
+        "median_response_chars": 426,
+        "max_response_chars": 3526,
+        "num_trajectory_entries": 553,
+        "num_events": 37,
+        "trajectory_restart_markers": 12,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 5,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/django__django-11179_human.json",
+      "output_path": "extracted/django__django-11179_human.extracted.json",
+      "status": "ok",
+      "instance_id": "django__django-11179",
+      "summary": {
+        "num_llm_turns": 31,
+        "num_turns_with_actions": 19,
+        "num_final_answer_turns": 4,
+        "response_counts": {
+          "Planner": 9,
+          "Inner-Navigator-Assistant": 7,
+          "Inner-Editor-Assistant": 11,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 14,
+          "bash": 5
+        },
+        "top_tool_names": {
+          "open_file._run": 4,
+          "open_file_gen._run": 4,
+          "editor._run": 3,
+          "python": 2,
+          "export": 2,
+          "python_exec": 2,
+          "code_search._run": 1,
+          "echo": 1
+        },
+        "avg_response_chars": 617.8387096774194,
+        "median_response_chars": 419,
+        "max_response_chars": 2410,
+        "num_trajectory_entries": 1130,
+        "num_events": 99,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "no",
+          "Step repetition": "yes",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 6,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/django__django-11742_human.json",
+      "output_path": "extracted/django__django-11742_human.extracted.json",
+      "status": "ok",
+      "instance_id": "django__django-11742",
+      "summary": {
+        "num_llm_turns": 45,
+        "num_turns_with_actions": 27,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 10,
+          "Inner-Navigator-Assistant": 24,
+          "Inner-Editor-Assistant": 11
+        },
+        "action_languages": {
+          "python": 27
+        },
+        "top_tool_names": {
+          "get_folder_structure._run": 10,
+          "open_file._run": 10,
+          "open_file_gen._run": 4,
+          "editor._run": 2,
+          "code_search._run": 1
+        },
+        "avg_response_chars": 495.1333333333333,
+        "median_response_chars": 361,
+        "max_response_chars": 2792,
+        "num_trajectory_entries": 766,
+        "num_events": 107,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 7,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/matplotlib__matplotlib-18869_human.json",
+      "output_path": "extracted/matplotlib__matplotlib-18869_human.extracted.json",
+      "status": "ok",
+      "instance_id": "matplotlib__matplotlib-18869",
+      "summary": {
+        "num_llm_turns": 44,
+        "num_turns_with_actions": 24,
+        "num_final_answer_turns": 6,
+        "response_counts": {
+          "Planner": 10,
+          "Inner-Navigator-Assistant": 9,
+          "Inner-Editor-Assistant": 17,
+          "Inner-Executor-Assistant": 8
+        },
+        "action_languages": {
+          "python": 20,
+          "bash": 4
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 7,
+          "editor._run": 7,
+          "python": 4,
+          "code_search._run": 2,
+          "get_folder_structure._run": 2,
+          "open_file._run": 2
+        },
+        "avg_response_chars": 575.6590909090909,
+        "median_response_chars": 329.0,
+        "max_response_chars": 2638,
+        "num_trajectory_entries": 1043,
+        "num_events": 102,
+        "trajectory_restart_markers": 4,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 8,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/matplotlib__matplotlib-23299_human.json",
+      "output_path": "extracted/matplotlib__matplotlib-23299_human.extracted.json",
+      "status": "ok",
+      "instance_id": "matplotlib__matplotlib-23299",
+      "summary": {
+        "num_llm_turns": 434,
+        "num_turns_with_actions": 260,
+        "num_final_answer_turns": 36,
+        "response_counts": {
+          "Planner": 89,
+          "Inner-Executor-Assistant": 85,
+          "Inner-Navigator-Assistant": 205,
+          "Inner-Editor-Assistant": 55
+        },
+        "action_languages": {
+          "bash": 39,
+          "python": 221
+        },
+        "top_tool_names": {
+          "open_file._run": 83,
+          "code_search._run": 53,
+          "python": 29,
+          "editor._run": 26,
+          "open_file_gen._run": 23,
+          "get_folder_structure._run": 20,
+          "echo": 10,
+          "python_exec": 7,
+          "find_all_refs._run": 7,
+          "find_file._run": 1,
+          "get_all_symbols._run": 1
+        },
+        "avg_response_chars": 507.70506912442397,
+        "median_response_chars": 293.0,
+        "max_response_chars": 2556,
+        "num_trajectory_entries": 11204,
+        "num_events": 952,
+        "trajectory_restart_markers": 12,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "yes",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "yes",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 9,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/matplotlib__matplotlib-23563_human.json",
+      "output_path": "extracted/matplotlib__matplotlib-23563_human.extracted.json",
+      "status": "ok",
+      "instance_id": "matplotlib__matplotlib-23563",
+      "summary": {
+        "num_llm_turns": 268,
+        "num_turns_with_actions": 113,
+        "num_final_answer_turns": 32,
+        "response_counts": {
+          "Planner": 78,
+          "Inner-Navigator-Assistant": 77,
+          "Inner-Executor-Assistant": 95,
+          "Inner-Editor-Assistant": 18
+        },
+        "action_languages": {
+          "python": 73,
+          "bash": 40
+        },
+        "top_tool_names": {
+          "open_file._run": 24,
+          "echo": 19,
+          "python": 19,
+          "python_exec": 19,
+          "code_search._run": 15,
+          "get_folder_structure._run": 11,
+          "open_file_gen._run": 2,
+          "get_all_symbols._run": 2,
+          "sed": 2
+        },
+        "avg_response_chars": 731.3917910447761,
+        "median_response_chars": 318.0,
+        "max_response_chars": 5898,
+        "num_trajectory_entries": 11583,
+        "num_events": 598,
+        "trajectory_restart_markers": 12,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "yes",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "no",
+          "Blurring role": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 10,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/matplotlib__matplotlib-24265_human.json",
+      "output_path": "extracted/matplotlib__matplotlib-24265_human.extracted.json",
+      "status": "ok",
+      "instance_id": "matplotlib__matplotlib-24265",
+      "summary": {
+        "num_llm_turns": 30,
+        "num_turns_with_actions": 15,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 7,
+          "Inner-Executor-Assistant": 8,
+          "Inner-Editor-Assistant": 12,
+          "Inner-Navigator-Assistant": 3
+        },
+        "action_languages": {
+          "bash": 2,
+          "python": 13
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 5,
+          "get_folder_structure._run": 4,
+          "editor._run": 3,
+          "python": 2,
+          "open_file._run": 1
+        },
+        "avg_response_chars": 336.9,
+        "median_response_chars": 247.0,
+        "max_response_chars": 2040,
+        "num_trajectory_entries": 516,
+        "num_events": 67,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 11,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/matplotlib__matplotlib-24334_human.json",
+      "output_path": "extracted/matplotlib__matplotlib-24334_human.extracted.json",
+      "status": "ok",
+      "instance_id": "matplotlib__matplotlib-24334",
+      "summary": {
+        "num_llm_turns": 117,
+        "num_turns_with_actions": 68,
+        "num_final_answer_turns": 9,
+        "response_counts": {
+          "Planner": 30,
+          "Inner-Navigator-Assistant": 33,
+          "Inner-Editor-Assistant": 36,
+          "Inner-Executor-Assistant": 18
+        },
+        "action_languages": {
+          "python": 57,
+          "bash": 11
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 19,
+          "editor._run": 15,
+          "open_file._run": 12,
+          "python3": 7,
+          "python_exec": 4,
+          "python": 4,
+          "code_search._run": 3,
+          "get_folder_structure._run": 2,
+          "find_file._run": 2
+        },
+        "avg_response_chars": 531.017094017094,
+        "median_response_chars": 256,
+        "max_response_chars": 3672,
+        "num_trajectory_entries": 4040,
+        "num_events": 278,
+        "trajectory_restart_markers": 4,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "yes",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "no",
+          "Invented content": "no",
+          "Blurring role": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 12,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/matplotlib__matplotlib-25433_human.json",
+      "output_path": "extracted/matplotlib__matplotlib-25433_human.extracted.json",
+      "status": "ok",
+      "instance_id": "matplotlib__matplotlib-25433",
+      "summary": {
+        "num_llm_turns": 30,
+        "num_turns_with_actions": 18,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 7,
+          "Inner-Navigator-Assistant": 14,
+          "Inner-Editor-Assistant": 5,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 15,
+          "bash": 3
+        },
+        "top_tool_names": {
+          "open_file._run": 4,
+          "get_folder_structure._run": 3,
+          "code_search._run": 3,
+          "open_file_gen._run": 3,
+          "editor._run": 2,
+          "python": 2,
+          "echo": 1
+        },
+        "avg_response_chars": 624.0333333333333,
+        "median_response_chars": 306.5,
+        "max_response_chars": 2482,
+        "num_trajectory_entries": 689,
+        "num_events": 67,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "yes",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "yes",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no",
+          "Blurring role": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 13,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/mwaskom__seaborn-2848_human.json",
+      "output_path": "extracted/mwaskom__seaborn-2848_human.extracted.json",
+      "status": "ok",
+      "instance_id": "mwaskom__seaborn-2848",
+      "summary": {
+        "num_llm_turns": 132,
+        "num_turns_with_actions": 90,
+        "num_final_answer_turns": 4,
+        "response_counts": {
+          "Planner": 32,
+          "Inner-Navigator-Assistant": 77,
+          "Inner-Executor-Assistant": 11,
+          "Inner-Editor-Assistant": 12
+        },
+        "action_languages": {
+          "python": 83,
+          "bash": 7
+        },
+        "top_tool_names": {
+          "open_file._run": 45,
+          "get_folder_structure._run": 11,
+          "open_file_gen._run": 9,
+          "find_file._run": 6,
+          "code_search._run": 5,
+          "python": 4,
+          "echo": 3,
+          "editor._run": 3,
+          "find_all_refs._run": 1,
+          "executor._run": 1,
+          "python_exec": 1
+        },
+        "avg_response_chars": 530.4015151515151,
+        "median_response_chars": 328.0,
+        "max_response_chars": 3468,
+        "num_trajectory_entries": 3451,
+        "num_events": 318,
+        "trajectory_restart_markers": 7,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "yes",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 14,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/mwaskom__seaborn-3407_human.json",
+      "output_path": "extracted/mwaskom__seaborn-3407_human.extracted.json",
+      "status": "ok",
+      "instance_id": "mwaskom__seaborn-3407",
+      "summary": {
+        "num_llm_turns": 26,
+        "num_turns_with_actions": 15,
+        "num_final_answer_turns": 2,
+        "response_counts": {
+          "Planner": 6,
+          "Inner-Navigator-Assistant": 7,
+          "Inner-Editor-Assistant": 9,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 13,
+          "bash": 2
+        },
+        "top_tool_names": {
+          "editor._run": 5,
+          "open_file._run": 4,
+          "open_file_gen._run": 3,
+          "code_search._run": 1,
+          "echo": 1,
+          "ls": 1
+        },
+        "avg_response_chars": 661.1153846153846,
+        "median_response_chars": 331.5,
+        "max_response_chars": 3543,
+        "num_trajectory_entries": 1262,
+        "num_events": 57,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 15,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/pallets__flask-4992_human.json",
+      "output_path": "extracted/pallets__flask-4992_human.extracted.json",
+      "status": "ok",
+      "instance_id": "pallets__flask-4992",
+      "summary": {
+        "num_llm_turns": 40,
+        "num_turns_with_actions": 27,
+        "num_final_answer_turns": 4,
+        "response_counts": {
+          "Planner": 10,
+          "Inner-Navigator-Assistant": 12,
+          "Inner-Editor-Assistant": 3,
+          "Inner-Executor-Assistant": 15
+        },
+        "action_languages": {
+          "python": 13,
+          "bash": 14
+        },
+        "top_tool_names": {
+          "python": 8,
+          "code_search._run": 4,
+          "echo": 4,
+          "open_file._run": 2,
+          "get_all_symbols._run": 2,
+          "get_folder_structure._run": 2,
+          "grep": 2,
+          "python_exec": 1,
+          "open_file_gen._run": 1,
+          "editor._run": 1
+        },
+        "avg_response_chars": 485.0,
+        "median_response_chars": 285.5,
+        "max_response_chars": 2554,
+        "num_trajectory_entries": 1440,
+        "num_events": 93,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "yes",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 16,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/pallets__flask-5063_human.json",
+      "output_path": "extracted/pallets__flask-5063_human.extracted.json",
+      "status": "ok",
+      "instance_id": "pallets__flask-5063",
+      "summary": {
+        "num_llm_turns": 53,
+        "num_turns_with_actions": 38,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 12,
+          "Inner-Navigator-Assistant": 17,
+          "Inner-Editor-Assistant": 20,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 34,
+          "bash": 4
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 13,
+          "editor._run": 9,
+          "open_file._run": 5,
+          "get_folder_structure._run": 3,
+          "find_all_refs._run": 2,
+          "python_exec": 1,
+          "find_file._run": 1,
+          "flask": 1,
+          "export": 1,
+          "echo": 1,
+          "cat": 1
+        },
+        "avg_response_chars": 423.0566037735849,
+        "median_response_chars": 287,
+        "max_response_chars": 4444,
+        "num_trajectory_entries": 1866,
+        "num_events": 130,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "no",
+          "Invented content": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 17,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/psf__requests-1963_human.json",
+      "output_path": "extracted/psf__requests-1963_human.extracted.json",
+      "status": "ok",
+      "instance_id": "psf__requests-1963",
+      "summary": {
+        "num_llm_turns": 23,
+        "num_turns_with_actions": 15,
+        "num_final_answer_turns": 2,
+        "response_counts": {
+          "Planner": 6,
+          "Inner-Navigator-Assistant": 9,
+          "Inner-Editor-Assistant": 4,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 11,
+          "bash": 4
+        },
+        "top_tool_names": {
+          "open_file._run": 5,
+          "open_file_gen._run": 2,
+          "python": 2,
+          "find_file._run": 1,
+          "python_exec": 1,
+          "code_search._run": 1,
+          "editor._run": 1,
+          "echo": 1,
+          "pip": 1
+        },
+        "avg_response_chars": 699.1739130434783,
+        "median_response_chars": 382,
+        "max_response_chars": 3806,
+        "num_trajectory_entries": 777,
+        "num_events": 52,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 18,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/psf__requests-2317_human.json",
+      "output_path": "extracted/psf__requests-2317_human.extracted.json",
+      "status": "ok",
+      "instance_id": "psf__requests-2317",
+      "summary": {
+        "num_llm_turns": 23,
+        "num_turns_with_actions": 12,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 5,
+          "Inner-Navigator-Assistant": 7,
+          "Inner-Executor-Assistant": 8,
+          "Inner-Editor-Assistant": 3
+        },
+        "action_languages": {
+          "python": 8,
+          "bash": 4
+        },
+        "top_tool_names": {
+          "open_file._run": 3,
+          "find_all_refs._run": 3,
+          "python": 3,
+          "python3.4": 1,
+          "open_file_gen._run": 1,
+          "editor._run": 1
+        },
+        "avg_response_chars": 591.2608695652174,
+        "median_response_chars": 508,
+        "max_response_chars": 1847,
+        "num_trajectory_entries": 535,
+        "num_events": 47,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "yes",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 19,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/pydata__xarray-4493_human.json",
+      "output_path": "extracted/pydata__xarray-4493_human.extracted.json",
+      "status": "ok",
+      "instance_id": "pydata__xarray-4493",
+      "summary": {
+        "num_llm_turns": 30,
+        "num_turns_with_actions": 18,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 7,
+          "Inner-Navigator-Assistant": 9,
+          "Inner-Editor-Assistant": 10,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 16,
+          "bash": 2
+        },
+        "top_tool_names": {
+          "open_file._run": 4,
+          "open_file_gen._run": 4,
+          "editor._run": 4,
+          "get_folder_structure._run": 2,
+          "get_all_symbols._run": 1,
+          "find_all_refs._run": 1,
+          "python": 1,
+          "pip": 1
+        },
+        "avg_response_chars": 580.4666666666667,
+        "median_response_chars": 276.0,
+        "max_response_chars": 2998,
+        "num_trajectory_entries": 1089,
+        "num_events": 68,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "yes",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 20,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/pylint-dev__pylint-6506_human.json",
+      "output_path": "extracted/pylint-dev__pylint-6506_human.extracted.json",
+      "status": "ok",
+      "instance_id": "pylint-dev__pylint-6506",
+      "summary": {
+        "num_llm_turns": 16,
+        "num_turns_with_actions": 7,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 4,
+          "Inner-Navigator-Assistant": 4,
+          "Inner-Editor-Assistant": 4,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 6,
+          "bash": 1
+        },
+        "top_tool_names": {
+          "open_file._run": 2,
+          "editor._run": 2,
+          "get_folder_structure._run": 1,
+          "open_file_gen._run": 1,
+          "pylint": 1
+        },
+        "avg_response_chars": 605.375,
+        "median_response_chars": 421.5,
+        "max_response_chars": 2610,
+        "num_trajectory_entries": 325,
+        "num_events": 32,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "yes",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 21,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/pytest-dev__pytest-7168_human.json",
+      "output_path": "extracted/pytest-dev__pytest-7168_human.extracted.json",
+      "status": "ok",
+      "instance_id": "pytest-dev__pytest-7168",
+      "summary": {
+        "num_llm_turns": 21,
+        "num_turns_with_actions": 10,
+        "num_final_answer_turns": 3,
+        "response_counts": {
+          "Planner": 5,
+          "Inner-Navigator-Assistant": 7,
+          "Inner-Editor-Assistant": 5,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 9,
+          "bash": 1
+        },
+        "top_tool_names": {
+          "find_file._run": 3,
+          "open_file_gen._run": 2,
+          "editor._run": 2,
+          "get_folder_structure._run": 1,
+          "open_file._run": 1,
+          "echo": 1
+        },
+        "avg_response_chars": 571.5714285714286,
+        "median_response_chars": 308,
+        "max_response_chars": 2508,
+        "num_trajectory_entries": 395,
+        "num_events": 43,
+        "trajectory_restart_markers": 2,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 22,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/scikit-learn__scikit-learn-10508_human.json",
+      "output_path": "extracted/scikit-learn__scikit-learn-10508_human.extracted.json",
+      "status": "ok",
+      "instance_id": "scikit-learn__scikit-learn-10508",
+      "summary": {
+        "num_llm_turns": 31,
+        "num_turns_with_actions": 18,
+        "num_final_answer_turns": 4,
+        "response_counts": {
+          "Planner": 7,
+          "Inner-Navigator-Assistant": 6,
+          "Inner-Editor-Assistant": 10,
+          "Inner-Executor-Assistant": 8
+        },
+        "action_languages": {
+          "python": 13,
+          "bash": 5
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 5,
+          "editor._run": 4,
+          "get_folder_structure._run": 2,
+          "cd": 2,
+          "pip": 2,
+          "get_all_symbols._run": 1,
+          "open_file._run": 1,
+          "conda": 1
+        },
+        "avg_response_chars": 429.64516129032256,
+        "median_response_chars": 264,
+        "max_response_chars": 2366,
+        "num_trajectory_entries": 689,
+        "num_events": 69,
+        "trajectory_restart_markers": 3,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 23,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/scikit-learn__scikit-learn-13439_human.json",
+      "output_path": "extracted/scikit-learn__scikit-learn-13439_human.extracted.json",
+      "status": "ok",
+      "instance_id": "scikit-learn__scikit-learn-13439",
+      "summary": {
+        "num_llm_turns": 23,
+        "num_turns_with_actions": 14,
+        "num_final_answer_turns": 4,
+        "response_counts": {
+          "Planner": 6,
+          "Inner-Navigator-Assistant": 7,
+          "Inner-Editor-Assistant": 10
+        },
+        "action_languages": {
+          "python": 14
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 4,
+          "editor._run": 4,
+          "get_folder_structure._run": 3,
+          "open_file._run": 2,
+          "python_exec": 1
+        },
+        "avg_response_chars": 639.7826086956521,
+        "median_response_chars": 266,
+        "max_response_chars": 2409,
+        "num_trajectory_entries": 771,
+        "num_events": 53,
+        "trajectory_restart_markers": 3,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 24,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/scikit-learn__scikit-learn-15535_human.json",
+      "output_path": "extracted/scikit-learn__scikit-learn-15535_human.extracted.json",
+      "status": "ok",
+      "instance_id": "scikit-learn__scikit-learn-15535",
+      "summary": {
+        "num_llm_turns": 49,
+        "num_turns_with_actions": 33,
+        "num_final_answer_turns": 2,
+        "response_counts": {
+          "Planner": 10,
+          "Inner-Navigator-Assistant": 15,
+          "Inner-Editor-Assistant": 20,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 32,
+          "bash": 1
+        },
+        "top_tool_names": {
+          "editor._run": 15,
+          "open_file_gen._run": 8,
+          "code_search._run": 4,
+          "open_file._run": 3,
+          "git_log._run": 1,
+          "python_exec": 1,
+          "pytest": 1
+        },
+        "avg_response_chars": 418.6938775510204,
+        "median_response_chars": 261,
+        "max_response_chars": 2023,
+        "num_trajectory_entries": 2330,
+        "num_events": 114,
+        "trajectory_restart_markers": 1,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "yes",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 25,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/scikit-learn__scikit-learn-25570_human.json",
+      "output_path": "extracted/scikit-learn__scikit-learn-25570_human.extracted.json",
+      "status": "ok",
+      "instance_id": "scikit-learn__scikit-learn-25570",
+      "summary": {
+        "num_llm_turns": 15,
+        "num_turns_with_actions": 9,
+        "num_final_answer_turns": 1,
+        "response_counts": {
+          "Planner": 4,
+          "Inner-Navigator-Assistant": 4,
+          "Inner-Editor-Assistant": 3,
+          "Inner-Executor-Assistant": 4
+        },
+        "action_languages": {
+          "python": 5,
+          "bash": 4
+        },
+        "top_tool_names": {
+          "python": 3,
+          "open_file._run": 2,
+          "code_search._run": 1,
+          "open_file_gen._run": 1,
+          "editor._run": 1,
+          "pip": 1
+        },
+        "avg_response_chars": 526.1333333333333,
+        "median_response_chars": 319,
+        "max_response_chars": 1869,
+        "num_trajectory_entries": 578,
+        "num_events": 33,
+        "trajectory_restart_markers": 1,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "yes",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 26,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/sphinx-doc__sphinx-11445_human.json",
+      "output_path": "extracted/sphinx-doc__sphinx-11445_human.extracted.json",
+      "status": "ok",
+      "instance_id": "sphinx-doc__sphinx-11445",
+      "summary": {
+        "num_llm_turns": 45,
+        "num_turns_with_actions": 30,
+        "num_final_answer_turns": 4,
+        "response_counts": {
+          "Planner": 10,
+          "Inner-Navigator-Assistant": 9,
+          "Inner-Editor-Assistant": 19,
+          "Inner-Executor-Assistant": 7
+        },
+        "action_languages": {
+          "python": 26,
+          "bash": 4
+        },
+        "top_tool_names": {
+          "editor._run": 9,
+          "open_file_gen._run": 8,
+          "open_file._run": 6,
+          "mkdir": 2,
+          "code_search._run": 1,
+          "get_folder_structure._run": 1,
+          "sphinx-quickstart": 1,
+          "cd": 1,
+          "python_exec": 1
+        },
+        "avg_response_chars": 502.0,
+        "median_response_chars": 297,
+        "max_response_chars": 1483,
+        "num_trajectory_entries": 1189,
+        "num_events": 107,
+        "trajectory_restart_markers": 1,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "yes",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "no",
+          "Step repetition": "no",
+          "Invented content": "no"
+        }
+      }
+    },
+    {
+      "selection_index": 27,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/sphinx-doc__sphinx-8435_human.json",
+      "output_path": "extracted/sphinx-doc__sphinx-8435_human.extracted.json",
+      "status": "error",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    }
+  ]
+}
