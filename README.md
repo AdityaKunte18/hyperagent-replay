@@ -107,6 +107,15 @@ ha-trace-batch-extract /path/to/hyperagent_runs \
   --output-dir /tmp/hyperagent-extracted
 ```
 
+First 20 inputs after deterministic sorting:
+
+```bash
+ha-trace-batch-extract /path/to/hyperagent_runs \
+  --output-dir /tmp/hyperagent-extracted \
+  --offset 0 \
+  --limit 20
+```
+
 Each extracted file contains:
 
 - `instance_id`
@@ -143,6 +152,17 @@ ha-trace-batch-replay /tmp/hyperagent-extracted \
   --model Qwen/Qwen2.5-Coder-14B-Instruct \
   --base-url http://127.0.0.1:8000/v1 \
   --output-dir /tmp/hyperagent-replays
+```
+
+First 20 extracted traces after deterministic sorting:
+
+```bash
+ha-trace-batch-replay /tmp/hyperagent-extracted \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
+  --base-url http://127.0.0.1:8000/v1 \
+  --output-dir /tmp/hyperagent-replays \
+  --offset 0 \
+  --limit 20
 ```
 
 Or batch replay with one shared launched server:
@@ -191,3 +211,4 @@ Replay metrics from vLLM:
 - The replay is approximate. It preserves turn order and context growth, not the exact original HyperAgent outputs.
 - In `per_agent` mode, each HyperAgent role gets a separate replay context.
 - In `flattened` mode, all turns share one context.
+- Batch extract and batch replay use deterministic lexicographic absolute-path ordering before applying `--offset` and `--limit`.

@@ -43,6 +43,18 @@ def discover_input_paths(inputs: list[Path], pattern: str,
     return unique
 
 
+def select_input_paths(paths: list[Path], offset: int,
+                       limit: int | None) -> list[Path]:
+    if offset < 0:
+        raise ValueError("--offset must be >= 0")
+    if limit is not None and limit < 0:
+        raise ValueError("--limit must be >= 0")
+
+    if limit is None:
+        return paths[offset:]
+    return paths[offset:offset + limit]
+
+
 def output_name_for(path: Path) -> str:
     return f"{path.stem}.extracted.json"
 
@@ -83,20 +95,38 @@ def main() -> None:
         action="store_true",
         help="Skip outputs that already exist",
     )
+    parser.add_argument(
+        "--offset",
+        type=int,
+        default=0,
+        help="Skip the first N inputs after deterministic sorting",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Extract at most N inputs after applying --offset",
+    )
     args = parser.parse_args()
 
-    input_paths = discover_input_paths(
+    all_input_paths = discover_input_paths(
         args.inputs,
         pattern=args.pattern,
         recursive=not args.non_recursive,
     )
+    input_paths = select_input_paths(
+        all_input_paths,
+        offset=args.offset,
+        limit=args.limit,
+    )
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     results: list[dict[str, Any]] = []
-    for input_path in input_paths:
+    for selection_index, input_path in enumerate(input_paths, start=args.offset):
         output_path = args.output_dir / output_name_for(input_path)
         if args.skip_existing and output_path.exists():
             results.append({
+                "selection_index": selection_index,
                 "input_path": str(input_path),
                 "output_path": str(output_path),
                 "status": "skipped_existing",
@@ -107,6 +137,7 @@ def main() -> None:
             trace = extract_trace(load_raw_trace(input_path))
             output_path.write_text(json.dumps(trace, indent=2))
             results.append({
+                "selection_index": selection_index,
                 "input_path": str(input_path),
                 "output_path": str(output_path),
                 "status": "ok",
@@ -116,6 +147,7 @@ def main() -> None:
             print(f"[ok] {input_path} -> {output_path}")
         except Exception as exc:
             results.append({
+                "selection_index": selection_index,
                 "input_path": str(input_path),
                 "output_path": str(output_path),
                 "status": "error",
@@ -126,6 +158,10 @@ def main() -> None:
     manifest = {
         "phase": "extract",
         "output_dir": str(args.output_dir.resolve()),
+        "ordering": "lexicographic absolute path",
+        "offset": args.offset,
+        "limit": args.limit,
+        "num_discovered_inputs": len(all_input_paths),
         "num_inputs": len(input_paths),
         "num_ok": sum(item["status"] == "ok" for item in results),
         "num_skipped_existing": sum(item["status"] == "skipped_existing"
