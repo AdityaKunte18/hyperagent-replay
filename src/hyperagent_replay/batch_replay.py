@@ -189,7 +189,12 @@ def main() -> None:
         )
 
     try:
-        wait_for_server(args.base_url, args.server_timeout_s)
+        wait_for_server(
+            args.base_url,
+            args.server_timeout_s,
+            server_proc=server_proc,
+            server_log=args.server_log,
+        )
         client = OpenAI(
             base_url=args.base_url,
             api_key=args.api_key,

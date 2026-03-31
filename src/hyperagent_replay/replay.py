@@ -37,17 +37,28 @@ def percentile(values: list[float], p: float) -> float:
     return ordered[f] + (k - f) * (ordered[c] - ordered[f])
 
 
-def wait_for_server(base_url: str, timeout_s: float) -> None:
+def wait_for_server(base_url: str,
+                    timeout_s: float,
+                    server_proc: subprocess.Popen[str] | None = None,
+                    server_log: Path | None = None) -> None:
     deadline = time.time() + timeout_s
     models_url = base_url.rstrip("/") + "/models"
     while time.time() < deadline:
+        if server_proc is not None and server_proc.poll() is not None:
+            detail = f"vLLM server exited before becoming ready (exit code {server_proc.returncode})."
+            if server_log is not None:
+                detail += f" Check {server_log} for startup logs."
+            raise RuntimeError(detail)
         try:
             with urlopen(models_url, timeout=2.0) as resp:
                 if 200 <= resp.status < 300:
                     return
         except (OSError, URLError):
             time.sleep(1.0)
-    raise TimeoutError(f"Timed out waiting for vLLM server at {models_url}")
+    detail = f"Timed out waiting for vLLM server at {models_url}"
+    if server_log is not None:
+        detail += f". Check {server_log} for startup logs."
+    raise TimeoutError(detail)
 
 
 def kill_process_tree(proc: subprocess.Popen[str]) -> None:
@@ -396,7 +407,12 @@ def main() -> None:
         )
 
     try:
-        wait_for_server(args.base_url, args.server_timeout_s)
+        wait_for_server(
+            args.base_url,
+            args.server_timeout_s,
+            server_proc=server_proc,
+            server_log=args.server_log,
+        )
         client = OpenAI(base_url=args.base_url,
                         api_key=args.api_key,
                         timeout=max(args.server_timeout_s, 30.0))
