@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 from urllib.error import URLError
@@ -206,7 +207,9 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
                  context_mode: str, max_reference_chars: int,
                  max_turns: int | None, temperature: float,
                  max_completion_tokens: int, seed: int | None,
-                 delay_policy: str, constant_delay: float
+                 delay_policy: str, constant_delay: float,
+                 progress_callback: Callable[[int, int, dict[str, Any]], None]
+                 | None = None
                  ) -> dict[str, Any]:
     contexts: dict[str, list[dict[str, str]]] = {}
     turns = trace["llm_turns"]
@@ -217,7 +220,9 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
     total_tool_sleep_s = 0.0
     solve_t0 = time.time()
 
-    for turn in turns:
+    total_turns = len(turns)
+
+    for completed_turns, turn in enumerate(turns, start=1):
         key = context_key(turn, context_mode)
         if key not in contexts:
             agent = turn["agent"] if context_mode != "flattened" else None
@@ -280,6 +285,9 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
             "request_messages": request_messages,
             "response_text": response_text,
         })
+
+        if progress_callback is not None:
+            progress_callback(completed_turns, total_turns, turn)
 
     solve_t1 = time.time()
     request_latencies = [item["request_latency_s"] for item in results]

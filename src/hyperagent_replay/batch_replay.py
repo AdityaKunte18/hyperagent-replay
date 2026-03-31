@@ -72,6 +72,12 @@ def output_name_for(path: Path) -> str:
     return f"{name}.replay.json"
 
 
+def format_percent(numerator: int, denominator: int) -> str:
+    if denominator <= 0:
+        return "0.0%"
+    return f"{(100.0 * numerator / denominator):.1f}%"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Batch-replay HyperAgent traces against a vLLM server")
@@ -201,8 +207,27 @@ def main() -> None:
             timeout=max(args.server_timeout_s, 30.0),
         )
 
-        for selection_index, input_path in enumerate(input_paths, start=args.offset):
+        total_inputs = len(input_paths)
+        completed_inputs = 0
+
+        for file_position, (selection_index,
+                            input_path) in enumerate(
+                                zip(range(args.offset, args.offset + total_inputs),
+                                    input_paths),
+                                start=1):
             output_path = args.output_dir / output_name_for(input_path)
+            trace = load_trace_payload(input_path)
+            total_turns = len(trace["llm_turns"])
+
+            print(
+                "[progress] "
+                f"completed files {completed_inputs}/{total_inputs} "
+                f"({format_percent(completed_inputs, total_inputs)}); "
+                f"starting file {file_position}/{total_inputs}: "
+                f"{input_path.name} ({total_turns} turns)",
+                flush=True,
+            )
+
             if args.skip_existing and output_path.exists():
                 results.append({
                     "selection_index": selection_index,
@@ -210,10 +235,17 @@ def main() -> None:
                     "output_path": str(output_path),
                     "status": "skipped_existing",
                 })
+                completed_inputs += 1
+                print(
+                    "[progress] "
+                    f"completed files {completed_inputs}/{total_inputs} "
+                    f"({format_percent(completed_inputs, total_inputs)}); "
+                    f"skipped existing {input_path.name}",
+                    flush=True,
+                )
                 continue
 
             try:
-                trace = load_trace_payload(input_path)
                 replay = replay_trace(
                     trace=trace,
                     client=client,
@@ -226,8 +258,18 @@ def main() -> None:
                     seed=args.seed,
                     delay_policy=args.delay_policy,
                     constant_delay=args.constant_delay,
+                    progress_callback=lambda completed_turns, total_turns,
+                    turn, *, file_position=file_position, total_inputs=total_inputs,
+                    name=input_path.name: print(
+                        "[progress] "
+                        f"file {file_position}/{total_inputs} "
+                        f"{name}: turn {completed_turns}/{total_turns} "
+                        f"({format_percent(completed_turns, total_turns)})",
+                        flush=True,
+                    ),
                 )
                 output_path.write_text(json.dumps(replay, indent=2))
+                completed_inputs += 1
                 results.append({
                     "selection_index": selection_index,
                     "input_path": str(input_path),
@@ -236,7 +278,13 @@ def main() -> None:
                     "instance_id": replay.get("instance_id"),
                     "timing": replay.get("timing", {}),
                 })
-                print(f"[ok] {input_path} -> {output_path}")
+                print(
+                    "[ok] "
+                    f"completed files {completed_inputs}/{total_inputs} "
+                    f"({format_percent(completed_inputs, total_inputs)}): "
+                    f"{input_path} -> {output_path}",
+                    flush=True,
+                )
             except Exception as exc:
                 results.append({
                     "selection_index": selection_index,
@@ -245,7 +293,7 @@ def main() -> None:
                     "status": "error",
                     "error": str(exc),
                 })
-                print(f"[error] {input_path}: {exc}")
+                print(f"[error] {input_path}: {exc}", flush=True)
     finally:
         if server_proc is not None:
             kill_process_tree(server_proc)

@@ -175,6 +175,8 @@ ha-trace-batch-replay /tmp/hyperagent-extracted \
   --output-dir /tmp/hyperagent-replays
 ```
 
+Batch replay prints progress lines for each file and each completed turn. If you use `--launch-server`, add `--server-log /path/to/vllm.log` to keep the vLLM server logs out of the main terminal stream.
+
 ## Evaluate metrics
 
 Single replay:
