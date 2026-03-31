@@ -1,0 +1,49 @@
+{
+  "phase": "replay",
+  "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+  "base_url": "http://127.0.0.1:8000/v1",
+  "output_dir": "/projects/bewu/akunte2/hyperagent-replay/replays",
+  "ordering": "lexicographic absolute path",
+  "offset": 0,
+  "limit": 3,
+  "num_discovered_inputs": 28,
+  "num_inputs": 3,
+  "num_ok": 1,
+  "num_skipped_existing": 0,
+  "num_error": 2,
+  "results": [
+    {
+      "selection_index": 0,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/extracted/astropy__astropy-12907_human.extracted.json",
+      "output_path": "replays/astropy__astropy-12907_human.replay.json",
+      "status": "error",
+      "error": "Error code: 400 - {'error': {'message': \"This model's maximum context length is 32768 tokens. However, you requested 512 output tokens and your prompt contains at least 32257 input tokens, for a total of at least 32769 tokens. Please reduce the length of the input prompt or the number of requested output tokens. (parameter=input_tokens, value=32257)\", 'type': 'BadRequestError', 'param': 'input_tokens', 'code': 400}}"
+    },
+    {
+      "selection_index": 1,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/extracted/astropy__astropy-14365_human.extracted.json",
+      "output_path": "replays/astropy__astropy-14365_human.replay.json",
+      "status": "error",
+      "error": "Error code: 400 - {'error': {'message': \"This model's maximum context length is 32768 tokens. However, you requested 512 output tokens and your prompt contains at least 32257 input tokens, for a total of at least 32769 tokens. Please reduce the length of the input prompt or the number of requested output tokens. (parameter=input_tokens, value=32257)\", 'type': 'BadRequestError', 'param': 'input_tokens', 'code': 400}}"
+    },
+    {
+      "selection_index": 2,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/extracted/astropy__astropy-6938_human.extracted.json",
+      "output_path": "replays/astropy__astropy-6938_human.replay.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-6938",
+      "timing": {
+        "wall_solve_time_s": 823.7526271343231,
+        "lm_only_solve_time_s": 755.3919494152069,
+        "synthetic_tool_sleep_s": 68.35000000000001,
+        "num_replayed_turns": 116,
+        "avg_request_latency_s": 6.511999563924197,
+        "median_request_latency_s": 5.013147473335266,
+        "p95_request_latency_s": 16.44699090719223,
+        "p99_request_latency_s": 24.688579142093644,
+        "total_prompt_tokens": 570707,
+        "total_completion_tokens": 13949
+      }
+    }
+  ]
+}
