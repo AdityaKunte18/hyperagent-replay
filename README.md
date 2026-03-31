@@ -22,6 +22,8 @@ This project installs:
 
 If you want the replay CLI to launch a server with `--launch-server`, you also need `vllm` available in the environment.
 
+For NCSA Delta with the `gpuA40x4` partition and `cudatoolkit/25.3_12.8`, install the CUDA 12.8 vLLM build. Current vLLM releases default to CUDA 12.9 wheels, but the project also publishes CUDA 12.8 wheels and explicitly supports selecting `cu128`.
+
 ## Install
 
 With `uv`:
@@ -41,6 +43,53 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
 python -m pip install -e .
+```
+
+## NCSA Delta setup
+
+Recommended model on a single 46 GB A40:
+
+- `Qwen/Qwen2.5-Coder-14B-Instruct`
+
+Why this is the default choice here:
+
+- it is a code-focused instruct model
+- it is explicitly positioned for code-agent style workloads
+- it has Apache-2.0 licensing
+- at 14.7B parameters, it is a practical fit for one A40 while still leaving room for KV cache
+
+Suggested interactive allocation:
+
+```bash
+srun -A bewu-delta-gpu -p gpuA40x4 --gpus=1 --cpus-per-task=16 --mem=32g --time=02:30:00 --pty /bin/bash
+```
+
+Then, inside the allocation:
+
+```bash
+module load gcc-native/13.2 cudatoolkit/25.3_12.8
+cd /Users/adityakunte/Desktop/MONET/hyperagent-replay
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip uv
+uv pip install -e .
+UV_TORCH_BACKEND=cu128 uv pip install vllm
+```
+
+Notes:
+
+- Use `UV_TORCH_BACKEND=cu128` on Delta to force the vLLM install to match the cluster CUDA 12.8 stack.
+- Let the vLLM wheel provide its compatible PyTorch build; do not preinstall a different CUDA-specific PyTorch into the same environment.
+- On a single A40, start with a moderate context limit such as `--max-model-len 32768` unless your traces require more.
+
+If you want to launch the server yourself on Delta, a good starting command is:
+
+```bash
+vllm serve Qwen/Qwen2.5-Coder-14B-Instruct \
+  --host 127.0.0.1 \
+  --port 8000 \
+  --gpu-memory-utilization 0.90 \
+  --max-model-len 32768
 ```
 
 ## Phase 1: Extract structured trace JSON
@@ -72,7 +121,7 @@ Use a running server:
 
 ```bash
 ha-trace-replay /tmp/trace.extracted.json \
-  --model meta-llama/Llama-3.1-8B-Instruct \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
   --base-url http://127.0.0.1:8000/v1 \
   --output /tmp/trace.replay.json
 ```
@@ -81,7 +130,7 @@ Or launch `vllm serve` from the replay CLI:
 
 ```bash
 ha-trace-replay /tmp/trace.extracted.json \
-  --model meta-llama/Llama-3.1-8B-Instruct \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
   --launch-server \
   --port 8000 \
   --output /tmp/trace.replay.json
@@ -91,7 +140,7 @@ Batch replay:
 
 ```bash
 ha-trace-batch-replay /tmp/hyperagent-extracted \
-  --model meta-llama/Llama-3.1-8B-Instruct \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
   --base-url http://127.0.0.1:8000/v1 \
   --output-dir /tmp/hyperagent-replays
 ```
@@ -100,7 +149,7 @@ Or batch replay with one shared launched server:
 
 ```bash
 ha-trace-batch-replay /tmp/hyperagent-extracted \
-  --model meta-llama/Llama-3.1-8B-Instruct \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
   --launch-server \
   --port 8000 \
   --output-dir /tmp/hyperagent-replays
