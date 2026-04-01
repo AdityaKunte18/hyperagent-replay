@@ -1,6 +1,0 @@
-# One extracted input basename per line.
-# These entries are skipped by ha-trace-batch-replay before offset/limit slicing.
-#
-# Example:
-# astropy__astropy-12907_human.extracted.json
-# astropy__astropy-14365_human.extracted.json
