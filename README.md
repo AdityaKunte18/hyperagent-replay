@@ -154,6 +154,10 @@ ha-trace-batch-replay /tmp/hyperagent-extracted \
   --output-dir /tmp/hyperagent-replays
 ```
 
+`ha-trace-batch-replay` also reads a repo-level skip list from `replay_skip_list.txt`. Put one extracted input basename per line to exclude it before `--offset` and `--limit` are applied.
+
+Replay now includes context budgeting for long traces. It preserves the system prompt and issue statement, drops the oldest replay history first, and then shrinks the recorded-turn reference if a request would overflow the model context window. If the server still returns a context-length error, replay retries with a tighter budget instead of failing immediately.
+
 First 20 extracted traces after deterministic sorting:
 
 ```bash
@@ -163,6 +167,19 @@ ha-trace-batch-replay /tmp/hyperagent-extracted \
   --output-dir /tmp/hyperagent-replays \
   --offset 0 \
   --limit 20
+```
+
+If you know the active vLLM context window, pass it to replay so budgeting can trim proactively:
+
+```bash
+ha-trace-batch-replay /tmp/hyperagent-extracted \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
+  --launch-server \
+  --port 8000 \
+  --output-dir /tmp/hyperagent-replays \
+  --max-model-len 32768 \
+  --serve-arg=--max-model-len \
+  --serve-arg=32768
 ```
 
 Or batch replay with one shared launched server:
@@ -214,3 +231,4 @@ Replay metrics from vLLM:
 - In `per_agent` mode, each HyperAgent role gets a separate replay context.
 - In `flattened` mode, all turns share one context.
 - Batch extract and batch replay use deterministic lexicographic absolute-path ordering before applying `--offset` and `--limit`.
+- Context budgeting is controlled by `--max-model-len`, `--context-safety-margin`, `--min-reference-chars`, and `--chars-per-token-estimate`.

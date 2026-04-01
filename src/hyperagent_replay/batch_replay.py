@@ -10,7 +10,10 @@ from typing import Any
 from openai import OpenAI
 
 from hyperagent_replay.replay import (
+    DEFAULT_CHARS_PER_TOKEN_ESTIMATE,
     DEFAULT_BASE_URL,
+    DEFAULT_CONTEXT_SAFETY_MARGIN,
+    DEFAULT_MIN_REFERENCE_CHARS,
     kill_process_tree,
     launch_server,
     replay_trace,
@@ -23,6 +26,7 @@ GENERATED_SUFFIXES = (
     ".eval.json",
     ".summary.json",
 )
+DEFAULT_SKIP_LIST_PATH = Path(__file__).resolve().parents[2] / "replay_skip_list.txt"
 
 
 def discover_input_paths(inputs: list[Path], pattern: str,
@@ -61,6 +65,34 @@ def select_input_paths(paths: list[Path], offset: int,
     if limit is None:
         return paths[offset:]
     return paths[offset:offset + limit]
+
+
+def load_skip_names(path: Path) -> set[str]:
+    if not path.exists():
+        return set()
+
+    names: set[str] = set()
+    for raw_line in path.read_text().splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        names.add(line)
+    return names
+
+
+def filter_skipped_paths(paths: list[Path],
+                         skip_names: set[str]) -> tuple[list[Path], list[Path]]:
+    if not skip_names:
+        return paths, []
+
+    kept: list[Path] = []
+    skipped: list[Path] = []
+    for path in paths:
+        if path.name in skip_names:
+            skipped.append(path)
+        else:
+            kept.append(path)
+    return kept, skipped
 
 
 def output_name_for(path: Path) -> str:
@@ -142,6 +174,16 @@ def main() -> None:
     parser.add_argument("--max-turns", type=int, default=None)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max-completion-tokens", type=int, default=512)
+    parser.add_argument("--max-model-len", type=int, default=None)
+    parser.add_argument("--context-safety-margin",
+                        type=int,
+                        default=DEFAULT_CONTEXT_SAFETY_MARGIN)
+    parser.add_argument("--min-reference-chars",
+                        type=int,
+                        default=DEFAULT_MIN_REFERENCE_CHARS)
+    parser.add_argument("--chars-per-token-estimate",
+                        type=float,
+                        default=DEFAULT_CHARS_PER_TOKEN_ESTIMATE)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
         "--delay-policy",
@@ -164,7 +206,22 @@ def main() -> None:
         default=[],
         help="Additional argument to pass through to `vllm serve`",
     )
+    parser.add_argument(
+        "--skip-list",
+        type=Path,
+        default=DEFAULT_SKIP_LIST_PATH,
+        help="Text file of extracted input basenames to skip",
+    )
     args = parser.parse_args()
+
+    if args.max_model_len is not None and args.max_model_len <= 0:
+        raise ValueError("--max-model-len must be > 0")
+    if args.context_safety_margin < 0:
+        raise ValueError("--context-safety-margin must be >= 0")
+    if args.min_reference_chars < 0:
+        raise ValueError("--min-reference-chars must be >= 0")
+    if args.chars_per_token_estimate <= 0:
+        raise ValueError("--chars-per-token-estimate must be > 0")
 
     if (args.base_url == DEFAULT_BASE_URL and
             (args.host != "127.0.0.1" or args.port != 8000)):
@@ -175,8 +232,13 @@ def main() -> None:
         pattern=args.pattern,
         recursive=not args.non_recursive,
     )
-    input_paths = select_input_paths(
+    skip_names = load_skip_names(args.skip_list)
+    eligible_input_paths, skip_list_paths = filter_skipped_paths(
         all_input_paths,
+        skip_names,
+    )
+    input_paths = select_input_paths(
+        eligible_input_paths,
         offset=args.offset,
         limit=args.limit,
     )
@@ -209,6 +271,14 @@ def main() -> None:
 
         total_inputs = len(input_paths)
         completed_inputs = 0
+
+        if skip_list_paths:
+            print(
+                "[progress] "
+                f"skipped {len(skip_list_paths)} files from skip list "
+                f"{args.skip_list}",
+                flush=True,
+            )
 
         for file_position, (selection_index,
                             input_path) in enumerate(
@@ -255,6 +325,10 @@ def main() -> None:
                     max_turns=args.max_turns,
                     temperature=args.temperature,
                     max_completion_tokens=args.max_completion_tokens,
+                    max_model_len=args.max_model_len,
+                    context_safety_margin=args.context_safety_margin,
+                    min_reference_chars=args.min_reference_chars,
+                    chars_per_token_estimate=args.chars_per_token_estimate,
                     seed=args.seed,
                     delay_policy=args.delay_policy,
                     constant_delay=args.constant_delay,
@@ -304,9 +378,12 @@ def main() -> None:
         "base_url": args.base_url,
         "output_dir": str(args.output_dir.resolve()),
         "ordering": "lexicographic absolute path",
+        "skip_list_path": str(args.skip_list.resolve()),
+        "num_skipped_by_skip_list": len(skip_list_paths),
         "offset": args.offset,
         "limit": args.limit,
         "num_discovered_inputs": len(all_input_paths),
+        "num_eligible_inputs": len(eligible_input_paths),
         "num_inputs": len(input_paths),
         "num_ok": sum(item["status"] == "ok" for item in results),
         "num_skipped_existing": sum(item["status"] == "skipped_existing"
