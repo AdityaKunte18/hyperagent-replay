@@ -1,0 +1,79 @@
+{
+  "instance_id": "astropy__astropy-12907",
+  "source_metrics": {
+    "num_llm_turns": 115,
+    "num_turns_with_actions": 65,
+    "num_final_answer_turns": 13,
+    "response_counts": {
+      "Planner": 33,
+      "Inner-Navigator-Assistant": 61,
+      "Inner-Executor-Assistant": 13,
+      "Inner-Editor-Assistant": 8
+    },
+    "action_languages": {
+      "python": 58,
+      "bash": 7
+    },
+    "top_tool_names": {
+      "open_file._run": 38,
+      "python_exec": 11,
+      "echo": 7,
+      "open_file_gen._run": 3,
+      "get_all_symbols._run": 2,
+      "code_search._run": 2,
+      "get_folder_structure._run": 1,
+      "editor._run": 1
+    },
+    "avg_response_chars": 879.2782608695652,
+    "median_response_chars": 698,
+    "max_response_chars": 3887,
+    "num_trajectory_entries": 3551,
+    "num_events": 284,
+    "trajectory_restart_markers": 19,
+    "annotated_flags": {
+      "Fail to detect ambiguities/contradictions": "no",
+      "Misalignment between internal thoughts and response message": "no",
+      "Claiming that a task is done while it is not true.": "no",
+      "Ignoring good suggestions from other agent": "no",
+      "Not exploring every option proposed by other agents": "no",
+      "Discontinued reasoning": "no",
+      "Withholding relevant information": "no",
+      "Derailing from task objectives": "no",
+      "No attempt to verify outcome": "no",
+      "Trajectory restart": "yes",
+      "Step repetition": "yes",
+      "Invented content": "yes"
+    }
+  },
+  "replay_metrics": {
+    "num_replayed_turns": 115,
+    "wall_solve_time_s": 1539.2400410175323,
+    "lm_only_solve_time_s": 1517.475688457489,
+    "synthetic_tool_sleep_s": 21.74999999999998,
+    "avg_request_latency_s": 13.195440769195557,
+    "median_request_latency_s": 13.794347763061523,
+    "p95_request_latency_s": 21.307395792007448,
+    "p99_request_latency_s": 22.552362408638,
+    "total_prompt_tokens": 1252683,
+    "total_completion_tokens": 23798,
+    "avg_prompt_tokens_per_turn": 10892.895652173913,
+    "avg_completion_tokens_per_turn": 206.9391304347826,
+    "avg_prompt_chars_per_turn": 49850.860869565215,
+    "avg_response_chars_per_turn": 1000.6782608695652
+  },
+  "replay_settings": {
+    "model_name": "Qwen/Qwen2.5-Coder-14B-Instruct",
+    "context_mode": "per_agent",
+    "max_reference_chars": 4000,
+    "temperature": 0.0,
+    "max_completion_tokens": 256,
+    "max_model_len": 32768,
+    "context_safety_margin": 512,
+    "min_reference_chars": 256,
+    "chars_per_token_estimate": 3.0,
+    "delay_policy": "heuristic",
+    "constant_delay": 0.2,
+    "seed": 0,
+    "max_turns": null
+  }
+}
