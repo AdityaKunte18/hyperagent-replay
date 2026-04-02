@@ -26,23 +26,13 @@ For NCSA Delta with the `gpuA40x4` partition and `cudatoolkit/25.3_12.8`, instal
 
 ## Install
 
-With `uv`:
+Recommended: create a conda environment, install `uv`, then install this project with editable `pip`.
 
 ```bash
 cd /Users/adityakunte/Desktop/MONET/hyperagent-replay
-uv venv --python 3.11
-source .venv/bin/activate
-uv pip install -e .
-```
-
-With standard `venv`:
-
-```bash
-cd /Users/adityakunte/Desktop/MONET/hyperagent-replay
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install -U pip
-python -m pip install -e .
+conda create -n ha-replay python=3.11 -y
+conda activate ha-replay
+python -m pip install -U pip uv
 ```
 
 ## NCSA Delta setup
@@ -51,28 +41,16 @@ Recommended model on a single 46 GB A40:
 
 - `Qwen/Qwen2.5-Coder-14B-Instruct`
 
-Why this is the default choice here:
-
-- it is a code-focused instruct model
-- it is explicitly positioned for code-agent style workloads
-- it has Apache-2.0 licensing
-- at 14.7B parameters, it is a practical fit for one A40 while still leaving room for KV cache
-
-Suggested interactive allocation:
-
+Requset gpu node
 ```bash
 srun -A bewu-delta-gpu -p gpuA40x4 --gpus=1 --cpus-per-task=16 --mem=32g --time=02:30:00 --pty /bin/bash
 ```
 
-Then, inside the allocation:
-
 ```bash
 module load gcc-native/13.2 cudatoolkit/25.3_12.8
 cd /Users/adityakunte/Desktop/MONET/hyperagent-replay
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -U pip uv
-uv pip install -e .
+conda activate ha-replay
+python -m pip install -e .
 UV_TORCH_BACKEND=cu128 uv pip install vllm
 ```
 
@@ -203,6 +181,60 @@ ha-trace-eval /path/to/raw_trajectory.json \
   --replay /tmp/trace.replay.json \
   --output /tmp/trace.eval.json
 ```
+
+Batch evaluation from raw trajectories paired with a replay directory:
+
+```bash
+ha-trace-batch-eval /path/to/hyperagent_runs \
+  --replay-dir /tmp/hyperagent-replays \
+  --output-dir /tmp/hyperagent-evals
+```
+
+You can also batch-evaluate replay JSON files directly:
+
+```bash
+ha-trace-batch-eval /tmp/hyperagent-replays \
+  --output-dir /tmp/hyperagent-evals
+```
+
+Batch evaluation writes one `*.eval.json` per input plus an `eval_manifest.json` that includes aggregate source and replay metrics across all successful inputs.
+
+## SLO Derivation
+
+You can derive proxy SLOs and resource groups directly from trajectory JSON files:
+
+```bash
+python3 derive_slos_and_resource_groups.py \
+  --glob "trajectories/**/*.json" \
+  --slo-class interactive
+```
+
+If you only want the human astropy files:
+
+```bash
+python3 derive_slos_and_resource_groups.py \
+  --glob "trajectories/**/astropy**human.json" \
+  --slo-class interactive
+```
+
+For a single file:
+
+```bash
+python3 derive_slos_and_resource_groups.py \
+  --glob "trajectories/astropy__astropy-12907_human.json" \
+  --slo-class interactive
+```
+
+If you want per-file reports from a batched run written to a specific directory:
+
+```bash
+python3 derive_slos_and_resource_groups.py \
+  --glob "trajectories/**/astropy**human.json" \
+  --slo-class interactive \
+  --single-file-output-dir "trajectory_reports"
+```
+
+`--glob` controls which trajectory JSON files are read. `--single-file-output-dir` controls where the per-trajectory report files from batched runs are saved.
 
 ## What gets measured
 
