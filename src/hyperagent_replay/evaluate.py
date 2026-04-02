@@ -67,6 +67,42 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text())
 
 
+def load_trace_and_replay(input_path: Path,
+                          replay_path: Path | None = None
+                          ) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    primary = load_json(input_path)
+    if isinstance(primary, dict) and "turn_metrics" in primary and "timing" in primary:
+        trace = {
+            "instance_id": primary.get("instance_id"),
+            "problem_statement": primary.get("problem_statement", ""),
+            "summary": primary.get("source_summary", {}),
+            "llm_turns": [],
+        }
+        replay = primary
+    else:
+        trace = load_trace_payload(input_path)
+        replay = load_json(replay_path) if replay_path is not None else None
+    return trace, replay
+
+
+def build_summary(trace: dict[str, Any],
+                  replay: dict[str, Any] | None = None) -> dict[str, Any]:
+    summary: dict[str, Any] = {
+        "instance_id": trace.get("instance_id"),
+        "source_metrics": trace.get("summary", {}),
+    }
+    if replay is not None:
+        summary["replay_metrics"] = summarize_replay(replay)
+        summary["replay_settings"] = replay.get("settings", {})
+    return summary
+
+
+def evaluate_paths(input_path: Path,
+                   replay_path: Path | None = None) -> dict[str, Any]:
+    trace, replay = load_trace_and_replay(input_path, replay_path=replay_path)
+    return build_summary(trace, replay)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Evaluate a HyperAgent trajectory file and optional replay results"
@@ -84,26 +120,7 @@ def main() -> None:
                         help="Optional path to save evaluation summary JSON")
     args = parser.parse_args()
 
-    primary = load_json(args.input)
-    if isinstance(primary, dict) and "turn_metrics" in primary and "timing" in primary:
-        trace = {
-            "instance_id": primary.get("instance_id"),
-            "problem_statement": primary.get("problem_statement", ""),
-            "summary": primary.get("source_summary", {}),
-            "llm_turns": [],
-        }
-        replay = primary
-    else:
-        trace = load_trace_payload(args.input)
-        replay = load_json(args.replay) if args.replay is not None else None
-
-    summary: dict[str, Any] = {
-        "instance_id": trace.get("instance_id"),
-        "source_metrics": trace.get("summary", {}),
-    }
-    if replay is not None:
-        summary["replay_metrics"] = summarize_replay(replay)
-        summary["replay_settings"] = replay.get("settings", {})
+    summary = evaluate_paths(args.input, replay_path=args.replay)
 
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)

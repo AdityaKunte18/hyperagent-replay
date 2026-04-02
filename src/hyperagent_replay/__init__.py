@@ -5,6 +5,8 @@ __all__ = [
     "extract",
     "replay",
     "evaluate",
+    "batch_evaluate",
     "batch_extract",
     "batch_replay",
+    "derive_slos_and_resource_groups",
 ]
