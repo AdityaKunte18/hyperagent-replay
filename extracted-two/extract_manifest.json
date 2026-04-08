@@ -1,0 +1,123 @@
+{
+  "phase": "extract",
+  "output_dir": "/projects/bewu/akunte2/hyperagent-replay/extracted-two",
+  "ordering": "lexicographic absolute path",
+  "offset": 0,
+  "limit": null,
+  "num_discovered_inputs": 2,
+  "num_inputs": 2,
+  "num_ok": 2,
+  "num_skipped_existing": 0,
+  "num_error": 0,
+  "results": [
+    {
+      "selection_index": 0,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/astropy__astropy-12907_human.json",
+      "output_path": "extracted-two/astropy__astropy-12907_human.extracted.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-12907",
+      "summary": {
+        "num_llm_turns": 115,
+        "num_turns_with_actions": 65,
+        "num_final_answer_turns": 13,
+        "response_counts": {
+          "Planner": 33,
+          "Inner-Navigator-Assistant": 61,
+          "Inner-Executor-Assistant": 13,
+          "Inner-Editor-Assistant": 8
+        },
+        "action_languages": {
+          "python": 58,
+          "bash": 7
+        },
+        "top_tool_names": {
+          "open_file._run": 38,
+          "python_exec": 11,
+          "echo": 7,
+          "open_file_gen._run": 3,
+          "get_all_symbols._run": 2,
+          "code_search._run": 2,
+          "get_folder_structure._run": 1,
+          "editor._run": 1
+        },
+        "avg_response_chars": 879.2782608695652,
+        "median_response_chars": 698,
+        "max_response_chars": 3887,
+        "num_trajectory_entries": 3551,
+        "num_events": 284,
+        "trajectory_restart_markers": 19,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "no",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "no",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "yes"
+        }
+      }
+    },
+    {
+      "selection_index": 1,
+      "input_path": "/projects/bewu/akunte2/hyperagent-replay/trajectories/astropy__astropy-14365_human.json",
+      "output_path": "extracted-two/astropy__astropy-14365_human.extracted.json",
+      "status": "ok",
+      "instance_id": "astropy__astropy-14365",
+      "summary": {
+        "num_llm_turns": 385,
+        "num_turns_with_actions": 255,
+        "num_final_answer_turns": 30,
+        "response_counts": {
+          "Planner": 89,
+          "Inner-Navigator-Assistant": 159,
+          "Inner-Executor-Assistant": 26,
+          "Inner-Editor-Assistant": 111
+        },
+        "action_languages": {
+          "python": 235,
+          "bash": 20
+        },
+        "top_tool_names": {
+          "open_file_gen._run": 103,
+          "open_file._run": 78,
+          "get_folder_structure._run": 15,
+          "editor._run": 13,
+          "python_exec": 11,
+          "python": 11,
+          "get_all_symbols._run": 9,
+          "echo": 5,
+          "code_search._run": 5,
+          "pytest": 3,
+          "python3": 1,
+          "go_to_def._run": 1
+        },
+        "avg_response_chars": 487.22597402597404,
+        "median_response_chars": 267,
+        "max_response_chars": 4434,
+        "num_trajectory_entries": 10535,
+        "num_events": 957,
+        "trajectory_restart_markers": 31,
+        "annotated_flags": {
+          "Fail to detect ambiguities/contradictions": "no",
+          "Misalignment between internal thoughts and response message": "yes",
+          "Claiming that a task is done while it is not true.": "no",
+          "Ignoring good suggestions from other agent": "no",
+          "Not exploring every option proposed by other agents": "no",
+          "Discontinued reasoning": "no",
+          "Withholding relevant information": "yes",
+          "Derailing from task objectives": "no",
+          "No attempt to verify outcome": "no",
+          "Trajectory restart": "yes",
+          "Step repetition": "yes",
+          "Invented content": "yes",
+          "Blurring role": "yes"
+        }
+      }
+    }
+  ]
+}
