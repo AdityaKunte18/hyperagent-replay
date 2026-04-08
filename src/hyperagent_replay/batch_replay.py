@@ -104,6 +104,23 @@ def output_name_for(path: Path) -> str:
     return f"{name}.replay.json"
 
 
+def merge_scheduler_timestamps(
+        merged: dict[str, list[dict[str, float]]],
+        incoming: dict[str, list[dict[str, float]]]) -> None:
+    for job_id, history in incoming.items():
+        if job_id not in merged:
+            merged[job_id] = []
+        merged[job_id].extend(history)
+
+
+def scheduler_timestamps_path_for(output_path: Path) -> Path:
+    replay_suffix = ".replay.json"
+    if output_path.name.endswith(replay_suffix):
+        base = output_path.name[:-len(replay_suffix)]
+        return output_path.with_name(f"{base}.scheduler_timestamps.json")
+    return output_path.with_suffix(".scheduler_timestamps.json")
+
+
 def format_percent(numerator: int, denominator: int) -> str:
     if denominator <= 0:
         return "0.0%"
@@ -246,6 +263,7 @@ def main() -> None:
 
     server_proc = None
     results: list[dict[str, Any]] = []
+    merged_scheduler_timestamps: dict[str, list[dict[str, float]]] = {}
 
     if args.launch_server:
         server_proc = launch_server(
@@ -299,10 +317,19 @@ def main() -> None:
             )
 
             if args.skip_existing and output_path.exists():
+                scheduler_timestamps_path = scheduler_timestamps_path_for(
+                    output_path)
+                if scheduler_timestamps_path.exists():
+                    merge_scheduler_timestamps(
+                        merged_scheduler_timestamps,
+                        json.loads(scheduler_timestamps_path.read_text()),
+                    )
                 results.append({
                     "selection_index": selection_index,
                     "input_path": str(input_path),
                     "output_path": str(output_path),
+                    "scheduler_timestamps_path":
+                    str(scheduler_timestamps_path),
                     "status": "skipped_existing",
                 })
                 completed_inputs += 1
@@ -343,11 +370,21 @@ def main() -> None:
                     ),
                 )
                 output_path.write_text(json.dumps(replay, indent=2))
+                scheduler_timestamps_path = scheduler_timestamps_path_for(
+                    output_path)
+                scheduler_timestamps_path.write_text(
+                    json.dumps(replay["scheduler_timestamps"], indent=2))
+                merge_scheduler_timestamps(
+                    merged_scheduler_timestamps,
+                    replay["scheduler_timestamps"],
+                )
                 completed_inputs += 1
                 results.append({
                     "selection_index": selection_index,
                     "input_path": str(input_path),
                     "output_path": str(output_path),
+                    "scheduler_timestamps_path":
+                    str(scheduler_timestamps_path),
                     "status": "ok",
                     "instance_id": replay.get("instance_id"),
                     "timing": replay.get("timing", {}),
@@ -389,6 +426,8 @@ def main() -> None:
         "num_skipped_existing": sum(item["status"] == "skipped_existing"
                                      for item in results),
         "num_error": sum(item["status"] == "error" for item in results),
+        "scheduler_timestamps_path":
+        str((args.output_dir / "scheduler_timestamps").resolve()),
         "results": results,
     }
 
@@ -398,6 +437,11 @@ def main() -> None:
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(manifest, indent=2))
     print(f"Saved replay manifest to {manifest_path}")
+
+    scheduler_timestamps_path = args.output_dir / "scheduler_timestamps"
+    scheduler_timestamps_path.write_text(
+        json.dumps(merged_scheduler_timestamps, indent=2))
+    print(f"Saved merged scheduler timestamps to {scheduler_timestamps_path}")
 
 
 if __name__ == "__main__":

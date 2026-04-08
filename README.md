@@ -113,6 +113,16 @@ ha-trace-replay /tmp/trace.extracted.json \
   --output /tmp/trace.replay.json
 ```
 
+Single-file replay now also writes a Continuum-compatible sidecar:
+
+```text
+/tmp/trace.scheduler_timestamps.json
+```
+
+This file stores one job history keyed by `instance_id`, with alternating
+`Request_arrival_time` and `Request_departure_time` events so you can apply the
+same completion-time analysis used by Continuum.
+
 Or launch `vllm serve` from the replay CLI:
 
 ```bash
@@ -131,6 +141,15 @@ ha-trace-batch-replay /tmp/hyperagent-extracted \
   --base-url http://127.0.0.1:8000/v1 \
   --output-dir /tmp/hyperagent-replays
 ```
+
+Batch replay also writes a merged file:
+
+```text
+/tmp/hyperagent-replays/scheduler_timestamps
+```
+
+This merged JSON can be consumed directly by Continuum-style analyzers that
+expect the `scheduler_timestamps` format.
 
 `ha-trace-batch-replay` also reads a repo-level skip list from `replay_skip_list.txt`. Put one extracted input basename per line to exclude it before `--offset` and `--limit` are applied.
 

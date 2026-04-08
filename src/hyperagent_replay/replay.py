@@ -353,6 +353,28 @@ def is_context_length_error(exc: Exception) -> bool:
     )
 
 
+def build_scheduler_timestamps(instance_id: str,
+                               turn_metrics: list[dict[str, Any]]
+                               ) -> dict[str, list[dict[str, float]]]:
+    history: list[dict[str, float]] = []
+    for entry in turn_metrics:
+        arrival_time = entry.get("request_arrival_time")
+        departure_time = entry.get("request_departure_time")
+        if arrival_time is not None:
+            history.append({"Request_arrival_time": arrival_time})
+        if departure_time is not None:
+            history.append({"Request_departure_time": departure_time})
+    return {instance_id: history}
+
+
+def scheduler_timestamps_path_for(output_path: Path) -> Path:
+    replay_suffix = ".replay.json"
+    if output_path.name.endswith(replay_suffix):
+        base = output_path.name[:-len(replay_suffix)]
+        return output_path.with_name(f"{base}.scheduler_timestamps.json")
+    return output_path.with_suffix(".scheduler_timestamps.json")
+
+
 def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
                  context_mode: str, max_reference_chars: int,
                  max_turns: int | None, temperature: float,
@@ -392,6 +414,7 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
         dropped_context_messages = 0
         context_retry_count = 0
         estimated_prompt_tokens: int | None = None
+        request_arrival_time = time.time()
 
         while True:
             (request_messages, active_context, active_max_reference_chars,
@@ -439,6 +462,7 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
                 dropped_context_messages += dropped_for_retry
                 context_retry_count += 1
 
+        request_departure_time = t1
         response_text = response.choices[0].message.content or ""
         usage = getattr(response, "usage", None)
         prompt_tokens = getattr(usage, "prompt_tokens", None)
@@ -451,8 +475,12 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
         }]
 
         tool_sleep_s = tool_delay_for_turn(turn, delay_policy, constant_delay)
+        tool_sleep_start_time: float | None = None
+        tool_sleep_end_time: float | None = None
         if tool_sleep_s > 0.0:
+            tool_sleep_start_time = time.time()
             time.sleep(tool_sleep_s)
+            tool_sleep_end_time = time.time()
             total_tool_sleep_s += tool_sleep_s
 
         observation = build_observation(turn, tool_sleep_s)
@@ -465,8 +493,12 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
             "context_key": key,
             "contains_final_answer": turn["contains_final_answer"],
             "recorded_action": turn.get("action"),
+            "request_arrival_time": request_arrival_time,
+            "request_departure_time": request_departure_time,
             "request_latency_s": t1 - t0,
             "synthetic_tool_sleep_s": tool_sleep_s,
+            "tool_sleep_start_time": tool_sleep_start_time,
+            "tool_sleep_end_time": tool_sleep_end_time,
             "request_prompt_chars": request_prompt_chars,
             "response_chars": len(response_text),
             "prompt_tokens": prompt_tokens,
@@ -493,6 +525,10 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
         item["completion_tokens"] for item in results
         if item["completion_tokens"] is not None
     ]
+    scheduler_timestamps = build_scheduler_timestamps(
+        trace["instance_id"],
+        results,
+    )
 
     return {
         "instance_id": trace["instance_id"],
@@ -539,6 +575,7 @@ def replay_trace(trace: dict[str, Any], client: OpenAI, model_name: str,
             "total_dropped_context_messages": sum(
                 item["dropped_context_messages"] for item in results),
         },
+        "scheduler_timestamps": scheduler_timestamps,
         "turn_metrics": results,
     }
 
@@ -629,6 +666,7 @@ def main() -> None:
     output_path = args.output
     if output_path is None:
         output_path = args.input.with_suffix(".replay.json")
+    scheduler_timestamps_path = scheduler_timestamps_path_for(output_path)
 
     server_proc = None
     if args.launch_server:
@@ -669,7 +707,10 @@ def main() -> None:
         )
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(results, indent=2))
+        scheduler_timestamps_path.write_text(
+            json.dumps(results["scheduler_timestamps"], indent=2))
         print(f"Saved replay results to {output_path}")
+        print(f"Saved scheduler timestamps to {scheduler_timestamps_path}")
         print(json.dumps(results["timing"], indent=2))
     finally:
         if server_proc is not None:
