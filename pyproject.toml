@@ -19,6 +19,7 @@ ha-trace-eval = "hyperagent_replay.evaluate:main"
 ha-trace-batch-eval = "hyperagent_replay.batch_evaluate:main"
 ha-trace-batch-extract = "hyperagent_replay.batch_extract:main"
 ha-trace-batch-replay = "hyperagent_replay.batch_replay:main"
+ha-trace-replay-reuse = "hyperagent_replay.replay_reuse:main"
 ha-trace-derive-slos = "hyperagent_replay.derive_slos_and_resource_groups:main"
 
 [tool.setuptools]

@@ -8,5 +8,7 @@ __all__ = [
     "batch_evaluate",
     "batch_extract",
     "batch_replay",
+    "replay_reuse",
+    "resource_groups",
     "derive_slos_and_resource_groups",
 ]

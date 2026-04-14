@@ -28,6 +28,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple
 
+from hyperagent_replay.resource_groups import normalize_space
 
 # ----------------------------
 # Parsing patterns (trace format)
@@ -129,16 +130,6 @@ def percentile(xs: List[float], p: float) -> Optional[float]:
     return xs[f] * (c - k) + xs[c] * (k - f)
 
 
-def token_bucket(n: int) -> str:
-    if n < 256:
-        return "0-255"
-    if n < 1024:
-        return "256-1023"
-    if n < 4096:
-        return "1024-4095"
-    return "4096+"
-
-
 @dataclass
 class Stage:
     file: str
@@ -167,7 +158,7 @@ def _ingest_tool_line(stage: Stage, line: str) -> None:
     m = TOOL_CALL_WITH_ARGS_RE.search(line.strip())
     if m:
         tool = m.group(1)
-        args = re.sub(r"\s+", " ", m.group(2).strip())
+        args = normalize_space(m.group(2))
         stage.tool_calls_with_args[f"{tool}({args})"] += 1
 
 
@@ -278,7 +269,7 @@ def extract_tools(stage: Stage) -> None:
             m = TOOL_CALL_WITH_ARGS_RE.search(raw_line)
             if m:
                 tool = m.group(1)
-                args = re.sub(r"\s+", " ", m.group(2).strip())
+                args = normalize_space(m.group(2))
                 stage.tool_calls_with_args[f"{tool}({args})"] += 1
 
 

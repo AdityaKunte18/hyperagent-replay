@@ -191,6 +191,29 @@ ha-trace-batch-replay /tmp/hyperagent-extracted \
 
 Batch replay prints progress lines for each file and each completed turn. If you use `--launch-server`, add `--server-log /path/to/vllm.log` to keep the vLLM server logs out of the main terminal stream.
 
+## Reuse-aware replay
+
+If you want to run a single trajectory on vLLM while reusing exact repeated stages, use:
+
+```bash
+ha-trace-replay-reuse /tmp/trace.extracted.json \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
+  --base-url http://127.0.0.1:8000/v1 \
+  --slo-class interactive \
+  --output /tmp/trace.reuse.replay.json
+```
+
+This command stays on top of `vllm serve`: it does not modify vLLM internals. It replays the trajectory turn-by-turn, and when it sees an exact repeated stage it reuses the prior assistant response instead of sending a new request to vLLM.
+
+The reuse-aware replay output adds:
+
+- per-turn `cache_hit` and `executed_on_vllm`
+- per-turn `cache_key` and `cache_source_turn_index`
+- per-turn resource-group annotations
+- timing counters for executed versus avoided vLLM requests
+
+`scheduler_timestamps` only includes real vLLM requests. Cache hits are not added to the scheduler trace.
+
 ## Evaluate metrics
 
 Single replay:
@@ -254,6 +277,8 @@ python3 derive_slos_and_resource_groups.py \
 ```
 
 `--glob` controls which trajectory JSON files are read. `--single-file-output-dir` controls where the per-trajectory report files from batched runs are saved.
+
+In this repo, resource groups are used on top of vLLM. They help classify replay stages, report where repeated work appears, and summarize cache hits by stage type. They do not change vLLM's internal scheduler in this single-trajectory workflow.
 
 ## What gets measured
 
