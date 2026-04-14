@@ -205,6 +205,8 @@ ha-trace-replay-reuse /tmp/trace.extracted.json \
 
 This command stays on top of `vllm serve`: it does not modify vLLM internals. It replays the trajectory turn-by-turn, and when it sees an exact repeated stage it reuses the prior assistant response instead of sending a new request to vLLM.
 
+Reuse-aware replay prints a progress line after every completed turn, for example `Completed 37/116 turns`. These counts include cache-hit turns, so they reflect trajectory progress rather than only vLLM requests.
+
 The reuse-aware replay output adds:
 
 - per-turn `cache_hit` and `executed_on_vllm`

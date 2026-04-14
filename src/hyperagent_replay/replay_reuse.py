@@ -6,6 +6,7 @@ import argparse
 import json
 import time
 from collections import Counter
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -205,6 +206,8 @@ def replay_trace_with_reuse(
     min_reference_chars: int,
     chars_per_token_estimate: float,
     show_top: int,
+    progress_callback: Callable[[int, int, dict[str, Any], dict[str, Any]], None]
+    | None = None,
 ) -> dict[str, Any]:
     contexts: dict[str, list[dict[str, str]]] = {}
     turns = trace["llm_turns"]
@@ -222,8 +225,10 @@ def replay_trace_with_reuse(
         max_completion_tokens,
         context_safety_margin,
     )
+    total_turns = len(turns)
 
-    for turn, subgoal in zip(turns, subgoals, strict=False):
+    for completed_turns, (turn, subgoal) in enumerate(
+            zip(turns, subgoals, strict=False), start=1):
         key = context_key(turn, context_mode)
         if key not in contexts:
             agent = turn["agent"] if context_mode != "flattened" else None
@@ -373,7 +378,7 @@ def replay_trace_with_reuse(
             subgoal=subgoal,
         )
 
-        results.append({
+        turn_result = {
             "turn_index": turn["turn_index"],
             "agent": turn["agent"],
             "context_key": key,
@@ -405,7 +410,11 @@ def replay_trace_with_reuse(
             "cache_source_completion_tokens": cache_source_completion_tokens,
             "resource_group": resource_group,
             "resource_group_key": resource_group["key"],
-        })
+        }
+        results.append(turn_result)
+
+        if progress_callback is not None:
+            progress_callback(completed_turns, total_turns, turn, turn_result)
 
     solve_t1 = time.time()
     request_latencies = [item["request_latency_s"] for item in results]
@@ -624,6 +633,16 @@ def main() -> None:
             delay_policy=args.delay_policy,
             constant_delay=args.constant_delay,
             show_top=args.show_top,
+            progress_callback=lambda completed_turns, total_turns, turn,
+            turn_result: print(
+                "[progress] "
+                f"Completed {completed_turns}/{total_turns} turns "
+                f"({(completed_turns / total_turns * 100.0) if total_turns else 100.0:.1f}%); "
+                f"turn_index={turn['turn_index']}; "
+                f"cache_hit={'yes' if turn_result['cache_hit'] else 'no'}; "
+                f"executed_on_vllm={'yes' if turn_result['executed_on_vllm'] else 'no'}",
+                flush=True,
+            ),
         )
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(results, indent=2))
