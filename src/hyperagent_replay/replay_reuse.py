@@ -37,7 +37,10 @@ from hyperagent_replay.resource_groups import (
     build_resource_group,
     extract_response_subgoals,
 )
+from hyperagent_replay.slo_report import build_slo_report, load_agent_targets
 from hyperagent_replay.trace import load_trace_payload
+
+DEFAULT_REQUEST_LATENCY_PRIOR_S = 10.0
 
 
 def load_trace_with_subgoals(
@@ -187,6 +190,150 @@ def summarize_repeated_work(
     }
 
 
+def precompute_cache_keys(
+    turns: list[dict[str, Any]],
+    subgoals: list[str],
+) -> tuple[list[str], list[bool]]:
+    keys: list[str] = []
+    cache_hits: list[bool] = []
+    seen: set[str] = set()
+    for turn, subgoal in zip(turns, subgoals, strict=False):
+        key = build_exact_repeat_key(turn, subgoal=subgoal)
+        keys.append(key)
+        cache_hits.append(key in seen)
+        seen.add(key)
+    return keys, cache_hits
+
+
+def predicted_request_latency_for_agent(
+    agent: str,
+    latency_history_by_agent: dict[str, list[float]],
+    global_latency_history: list[float],
+    default_request_latency_prior_s: float,
+) -> float:
+    agent_history = latency_history_by_agent.get(agent, [])
+    if agent_history:
+        return percentile(agent_history, 50)
+    if global_latency_history:
+        return percentile(global_latency_history, 50)
+    return default_request_latency_prior_s
+
+
+def estimate_remaining_wall_time_s(
+    *,
+    turns: list[dict[str, Any]],
+    start_index: int,
+    current_cache_hit: bool,
+    predicted_cache_hits: list[bool],
+    latency_history_by_agent: dict[str, list[float]],
+    global_latency_history: list[float],
+    delay_policy: str,
+    constant_delay: float,
+    default_request_latency_prior_s: float,
+) -> float:
+    total_s = 0.0
+    for index in range(start_index, len(turns)):
+        turn = turns[index]
+        cache_hit = current_cache_hit if index == start_index else predicted_cache_hits[index]
+        if cache_hit:
+            continue
+        total_s += predicted_request_latency_for_agent(
+            str(turn.get("agent", "")),
+            latency_history_by_agent,
+            global_latency_history,
+            default_request_latency_prior_s,
+        )
+        total_s += tool_delay_for_turn(turn, delay_policy, constant_delay)
+    return total_s
+
+
+def select_slo_budget_mode(
+    *,
+    request_target_s: float | None,
+    predicted_request_latency_s: float,
+    episode_target_s: float | None,
+    slack_before_turn_s: float | None,
+) -> tuple[str, list[str]]:
+    if request_target_s is None and episode_target_s is None:
+        return "off", []
+
+    reasons: list[str] = []
+    severe_request_pressure = False
+    mild_request_pressure = False
+    if request_target_s is not None:
+        severe_request_pressure = predicted_request_latency_s > request_target_s
+        mild_request_pressure = predicted_request_latency_s > (0.85 * request_target_s)
+        if severe_request_pressure:
+            reasons.append("request_target_breach_risk")
+        elif mild_request_pressure:
+            reasons.append("request_target_pressure")
+
+    severe_episode_pressure = False
+    mild_episode_pressure = False
+    if episode_target_s is not None and slack_before_turn_s is not None:
+        severe_episode_pressure = slack_before_turn_s < 0.0
+        mild_episode_pressure = slack_before_turn_s < max(
+            15.0,
+            episode_target_s * 0.05,
+        )
+        if severe_episode_pressure:
+            reasons.append("episode_deadline_risk")
+        elif mild_episode_pressure:
+            reasons.append("episode_deadline_pressure")
+
+    if severe_request_pressure or severe_episode_pressure:
+        return "tight", reasons
+    if mild_request_pressure or mild_episode_pressure:
+        return "guarded", reasons
+    return "normal", reasons
+
+
+def effective_budget_settings(
+    *,
+    base_max_reference_chars: int,
+    base_max_completion_tokens: int,
+    base_context_safety_margin: int,
+    min_reference_chars: int,
+    slo_class: str,
+    budget_mode: str,
+    apply_budget_policy: bool,
+) -> dict[str, int | str | bool]:
+    if not apply_budget_policy or budget_mode in {"off", "normal"}:
+        return {
+            "budget_mode": budget_mode,
+            "applied": apply_budget_policy and budget_mode != "off",
+            "max_reference_chars": base_max_reference_chars,
+            "max_completion_tokens": base_max_completion_tokens,
+            "context_safety_margin": base_context_safety_margin,
+        }
+
+    if budget_mode == "guarded":
+        return {
+            "budget_mode": budget_mode,
+            "applied": True,
+            "max_reference_chars": max(
+                min_reference_chars,
+                int(base_max_reference_chars * 0.75),
+            ),
+            "max_completion_tokens": max(64, int(base_max_completion_tokens * 0.75)),
+            "context_safety_margin": base_context_safety_margin + 256,
+        }
+
+    tight_completion_scale = 0.50 if slo_class == "interactive" else 0.65
+    tight_reference_scale = 0.50 if slo_class == "interactive" else 0.65
+    tight_margin_bump = 512 if slo_class == "interactive" else 384
+    return {
+        "budget_mode": budget_mode,
+        "applied": True,
+        "max_reference_chars": max(
+            min_reference_chars,
+            int(base_max_reference_chars * tight_reference_scale),
+        ),
+        "max_completion_tokens": max(64, int(base_max_completion_tokens * tight_completion_scale)),
+        "context_safety_margin": base_context_safety_margin + tight_margin_bump,
+    }
+
+
 def replay_trace_with_reuse(
     trace: dict[str, Any],
     subgoals: list[str],
@@ -206,6 +353,11 @@ def replay_trace_with_reuse(
     min_reference_chars: int,
     chars_per_token_estimate: float,
     show_top: int,
+    slo_policy: str = "off",
+    request_target_s: float | None = None,
+    agent_request_targets: dict[str, float] | None = None,
+    episode_target_s: float | None = None,
+    default_request_latency_prior_s: float = DEFAULT_REQUEST_LATENCY_PRIOR_S,
     progress_callback: Callable[[int, int, dict[str, Any], dict[str, Any]], None]
     | None = None,
 ) -> dict[str, Any]:
@@ -220,22 +372,85 @@ def replay_trace_with_reuse(
     total_cache_lookup_latency_s = 0.0
     cache: dict[str, dict[str, Any]] = {}
     solve_t0 = time.time()
-    input_token_budget = compute_input_token_budget(
-        max_model_len,
-        max_completion_tokens,
-        context_safety_margin,
-    )
     total_turns = len(turns)
+    agent_request_targets = agent_request_targets or {}
+    precomputed_cache_keys, predicted_cache_hits = precompute_cache_keys(
+        turns,
+        subgoals,
+    )
+    latency_history_by_agent: dict[str, list[float]] = {}
+    global_latency_history: list[float] = []
 
-    for completed_turns, (turn, subgoal) in enumerate(
-            zip(turns, subgoals, strict=False), start=1):
+    for turn_index_in_trace, (turn, subgoal) in enumerate(
+            zip(turns, subgoals, strict=False)):
+        completed_turns = turn_index_in_trace + 1
         key = context_key(turn, context_mode)
         if key not in contexts:
             agent = turn["agent"] if context_mode != "flattened" else None
             contexts[key] = make_seed_messages(trace["problem_statement"], agent)
 
+        cache_key = precomputed_cache_keys[turn_index_in_trace]
+        lookup_t0 = time.time()
+        cache_entry = cache.get(cache_key)
+        cache_lookup_latency_s = time.time() - lookup_t0
+        total_cache_lookup_latency_s += cache_lookup_latency_s
+        current_cache_hit = cache_entry is not None
+        current_request_target_s = agent_request_targets.get(
+            str(turn.get("agent", "")),
+            request_target_s,
+        )
+        predicted_request_latency_s = (
+            0.0 if current_cache_hit else predicted_request_latency_for_agent(
+                str(turn.get("agent", "")),
+                latency_history_by_agent,
+                global_latency_history,
+                default_request_latency_prior_s,
+            ))
+        predicted_remaining_wall_time_s = estimate_remaining_wall_time_s(
+            turns=turns,
+            start_index=turn_index_in_trace,
+            current_cache_hit=current_cache_hit,
+            predicted_cache_hits=predicted_cache_hits,
+            latency_history_by_agent=latency_history_by_agent,
+            global_latency_history=global_latency_history,
+            delay_policy=delay_policy,
+            constant_delay=constant_delay,
+            default_request_latency_prior_s=default_request_latency_prior_s,
+        )
+        elapsed_before_turn_s = time.time() - solve_t0
+        projected_episode_time_s = elapsed_before_turn_s + predicted_remaining_wall_time_s
+        slack_before_turn_s = (
+            episode_target_s - projected_episode_time_s
+            if episode_target_s is not None
+            else None
+        )
+        selected_budget_mode, slo_policy_reasons = select_slo_budget_mode(
+            request_target_s=current_request_target_s,
+            predicted_request_latency_s=predicted_request_latency_s,
+            episode_target_s=episode_target_s,
+            slack_before_turn_s=slack_before_turn_s,
+        )
+        budget_settings = effective_budget_settings(
+            base_max_reference_chars=max_reference_chars,
+            base_max_completion_tokens=max_completion_tokens,
+            base_context_safety_margin=context_safety_margin,
+            min_reference_chars=min_reference_chars,
+            slo_class=slo_class,
+            budget_mode=selected_budget_mode,
+            apply_budget_policy=slo_policy == "budget",
+        )
+        effective_max_reference_chars = int(budget_settings["max_reference_chars"])
+        effective_max_completion_tokens = int(
+            budget_settings["max_completion_tokens"])
+        effective_context_safety_margin = int(
+            budget_settings["context_safety_margin"])
+        effective_input_token_budget = compute_input_token_budget(
+            max_model_len,
+            effective_max_completion_tokens,
+            effective_context_safety_margin,
+        )
         active_context = list(contexts[key])
-        active_max_reference_chars = max_reference_chars
+        active_max_reference_chars = effective_max_reference_chars
         dropped_context_messages = 0
         context_retry_count = 0
         estimated_prompt_tokens: int | None = None
@@ -247,18 +462,12 @@ def replay_trace_with_reuse(
             turn=turn,
             include_agent_name=context_mode == "flattened",
             max_reference_chars=active_max_reference_chars,
-            input_token_budget=input_token_budget,
+            input_token_budget=effective_input_token_budget,
             chars_per_token_estimate=chars_per_token_estimate,
             min_reference_chars=min_reference_chars,
         )
         dropped_context_messages += dropped_for_budgeting
         request_prompt_chars = sum(len(msg["content"]) for msg in request_messages)
-
-        lookup_t0 = time.time()
-        cache_key = build_exact_repeat_key(turn, subgoal=subgoal)
-        cache_entry = cache.get(cache_key)
-        cache_lookup_latency_s = time.time() - lookup_t0
-        total_cache_lookup_latency_s += cache_lookup_latency_s
 
         request_arrival_time: float | None = None
         request_departure_time: float | None = None
@@ -283,7 +492,7 @@ def replay_trace_with_reuse(
                         model=model_name,
                         messages=request_messages,
                         temperature=temperature,
-                        max_completion_tokens=max_completion_tokens,
+                        max_completion_tokens=effective_max_completion_tokens,
                         seed=seed,
                     )
                     t1 = time.time()
@@ -316,7 +525,7 @@ def replay_trace_with_reuse(
                         turn=turn,
                         include_agent_name=context_mode == "flattened",
                         max_reference_chars=active_max_reference_chars,
-                        input_token_budget=input_token_budget,
+                        input_token_budget=effective_input_token_budget,
                         chars_per_token_estimate=chars_per_token_estimate,
                         min_reference_chars=min_reference_chars,
                     )
@@ -344,6 +553,9 @@ def replay_trace_with_reuse(
                 "completion_tokens": completion_tokens,
                 "total_tokens": total_tokens,
             }
+            latency_history_by_agent.setdefault(str(turn.get("agent", "")), []).append(
+                request_latency_s)
+            global_latency_history.append(request_latency_s)
             cache_hit = False
             executed_on_vllm = True
             observation = build_observation(turn, tool_sleep_s)
@@ -396,7 +608,11 @@ def replay_trace_with_reuse(
             "completion_tokens": completion_tokens,
             "total_tokens": total_tokens,
             "estimated_prompt_tokens": estimated_prompt_tokens,
+            "policy_max_reference_chars": effective_max_reference_chars,
             "effective_max_reference_chars": active_max_reference_chars,
+            "effective_max_completion_tokens": effective_max_completion_tokens,
+            "effective_context_safety_margin": effective_context_safety_margin,
+            "effective_input_token_budget": effective_input_token_budget,
             "dropped_context_messages": dropped_context_messages,
             "context_retry_count": context_retry_count,
             "request_messages": request_messages,
@@ -408,6 +624,16 @@ def replay_trace_with_reuse(
             "cache_lookup_latency_s": cache_lookup_latency_s,
             "cache_source_prompt_tokens": cache_source_prompt_tokens,
             "cache_source_completion_tokens": cache_source_completion_tokens,
+            "predicted_cache_hit": predicted_cache_hits[turn_index_in_trace],
+            "request_target_s": current_request_target_s,
+            "predicted_request_latency_s": predicted_request_latency_s,
+            "projected_remaining_wall_time_s": predicted_remaining_wall_time_s,
+            "projected_episode_time_s": projected_episode_time_s,
+            "slack_before_turn_s": slack_before_turn_s,
+            "slo_policy": slo_policy,
+            "slo_budget_mode": str(budget_settings["budget_mode"]),
+            "slo_budget_applied": bool(budget_settings["applied"]),
+            "slo_policy_reasons": slo_policy_reasons,
             "resource_group": resource_group,
             "resource_group_key": resource_group["key"],
         }
@@ -433,8 +659,11 @@ def replay_trace_with_reuse(
 
     num_cache_hits = sum(item["cache_hit"] for item in results)
     num_executed_on_vllm = sum(item["executed_on_vllm"] for item in results)
+    num_turns_slo_budgeted = sum(item["slo_budget_applied"] for item in results)
+    slo_budget_mode_counts = Counter(
+        str(item["slo_budget_mode"]) for item in results)
 
-    return {
+    replay_result = {
         "instance_id": trace["instance_id"],
         "problem_statement": trace["problem_statement"],
         "source_summary": trace["summary"],
@@ -454,11 +683,27 @@ def replay_trace_with_reuse(
             "constant_delay": constant_delay,
             "seed": seed,
             "max_turns": max_turns,
+            "slo_policy": slo_policy,
+            "request_target_s": request_target_s,
+            "agent_request_targets": agent_request_targets,
+            "episode_target_s": episode_target_s,
+            "default_request_latency_prior_s": default_request_latency_prior_s,
         },
         "reuse_policy": {
             "mode": "exact_repeat_full_stage_memoization",
             "exact_repeat_only": True,
             "slo_class": slo_class,
+        },
+        "slo_control": {
+            "policy": slo_policy,
+            "request_metric": "request_latency_s",
+            "default_request_target_s": request_target_s,
+            "agent_request_targets": agent_request_targets,
+            "episode_metric": "wall_solve_time_s",
+            "episode_target_s": episode_target_s,
+            "default_request_latency_prior_s": default_request_latency_prior_s,
+            "num_turns_slo_budgeted": num_turns_slo_budgeted,
+            "budget_mode_counts": dict(slo_budget_mode_counts),
         },
         "timing": {
             "wall_solve_time_s": solve_t1 - solve_t0,
@@ -480,8 +725,9 @@ def replay_trace_with_reuse(
             "num_turns_context_trimmed": sum(
                 1 for item in results
                 if item["dropped_context_messages"] > 0
-                or item["effective_max_reference_chars"] != max_reference_chars
+                or item["effective_max_reference_chars"] != item["policy_max_reference_chars"]
             ),
+            "num_turns_slo_budgeted": num_turns_slo_budgeted,
             "num_context_retry_events": sum(
                 item["context_retry_count"] for item in results),
             "total_dropped_context_messages": sum(
@@ -496,6 +742,17 @@ def replay_trace_with_reuse(
         "scheduler_timestamps": scheduler_timestamps,
         "turn_metrics": results,
     }
+    if (request_target_s is not None or agent_request_targets
+            or episode_target_s is not None):
+        replay_result["slo_summary"] = build_slo_report(
+            replay_result,
+            request_metric="request_latency_s",
+            default_request_target_s=request_target_s,
+            agent_request_targets=agent_request_targets,
+            episode_metric="wall_solve_time_s",
+            episode_target_s=episode_target_s,
+        )
+    return replay_result
 
 
 def main() -> None:
@@ -524,6 +781,22 @@ def main() -> None:
     parser.add_argument("--slo-class",
                         default="interactive",
                         choices=["interactive", "batch"])
+    parser.add_argument("--slo-policy",
+                        choices=["off", "monitor", "budget"],
+                        default=None,
+                        help="How request and episode SLOs affect reuse replay budgeting")
+    parser.add_argument("--request-target-s",
+                        type=float,
+                        default=None,
+                        help="Default per-request latency target in seconds")
+    parser.add_argument("--agent-request-targets",
+                        type=Path,
+                        default=None,
+                        help="JSON file mapping agent name to per-request latency target in seconds")
+    parser.add_argument("--episode-target-s",
+                        type=float,
+                        default=None,
+                        help="Trajectory-level wall-clock target in seconds")
     parser.add_argument("--max-reference-chars",
                         type=int,
                         default=4000)
@@ -585,6 +858,19 @@ def main() -> None:
         raise ValueError("--chars-per-token-estimate must be > 0")
     if args.show_top < 0:
         raise ValueError("--show-top must be >= 0")
+    if args.request_target_s is not None and args.request_target_s <= 0:
+        raise ValueError("--request-target-s must be > 0")
+    if args.episode_target_s is not None and args.episode_target_s <= 0:
+        raise ValueError("--episode-target-s must be > 0")
+
+    agent_request_targets = load_agent_targets(args.agent_request_targets)
+    if args.slo_policy is None:
+        args.slo_policy = (
+            "budget"
+            if (args.request_target_s is not None or agent_request_targets
+                or args.episode_target_s is not None)
+            else "off"
+        )
 
     if (args.base_url == DEFAULT_BASE_URL and
             (args.host != "127.0.0.1" or args.port != 8000)):
@@ -633,6 +919,10 @@ def main() -> None:
             delay_policy=args.delay_policy,
             constant_delay=args.constant_delay,
             show_top=args.show_top,
+            slo_policy=args.slo_policy,
+            request_target_s=args.request_target_s,
+            agent_request_targets=agent_request_targets,
+            episode_target_s=args.episode_target_s,
             progress_callback=lambda completed_turns, total_turns, turn,
             turn_result: print(
                 "[progress] "
@@ -640,7 +930,8 @@ def main() -> None:
                 f"({(completed_turns / total_turns * 100.0) if total_turns else 100.0:.1f}%); "
                 f"turn_index={turn['turn_index']}; "
                 f"cache_hit={'yes' if turn_result['cache_hit'] else 'no'}; "
-                f"executed_on_vllm={'yes' if turn_result['executed_on_vllm'] else 'no'}",
+                f"executed_on_vllm={'yes' if turn_result['executed_on_vllm'] else 'no'}; "
+                f"slo_mode={turn_result['slo_budget_mode']}",
                 flush=True,
             ),
         )

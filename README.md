@@ -207,11 +207,25 @@ This command stays on top of `vllm serve`: it does not modify vLLM internals. It
 
 Reuse-aware replay prints a progress line after every completed turn, for example `Completed 37/116 turns`. These counts include cache-hit turns, so they reflect trajectory progress rather than only vLLM requests.
 
+If you pass SLO targets, reuse-aware replay can also tighten request budgets on turns that are predicted to be at risk of missing the target. The cache key and reuse semantics stay exact-repeat only; SLOs change budgeting, not cache identity.
+
+```bash
+ha-trace-replay-reuse /tmp/trace.extracted.json \
+  --model Qwen/Qwen2.5-Coder-14B-Instruct \
+  --base-url http://127.0.0.1:8000/v1 \
+  --slo-class interactive \
+  --request-target-s 10 \
+  --episode-target-s 1800 \
+  --slo-policy budget \
+  --output /tmp/trace.reuse.replay.json
+```
+
 The reuse-aware replay output adds:
 
 - per-turn `cache_hit` and `executed_on_vllm`
 - per-turn `cache_key` and `cache_source_turn_index`
 - per-turn resource-group annotations
+- per-turn SLO slack, selected budget mode, and effective request budgets
 - timing counters for executed versus avoided vLLM requests
 
 `scheduler_timestamps` only includes real vLLM requests. Cache hits are not added to the scheduler trace.
@@ -242,6 +256,58 @@ ha-trace-batch-eval /tmp/hyperagent-replays \
 ```
 
 Batch evaluation writes one `*.eval.json` per input plus an `eval_manifest.json` that includes aggregate source and replay metrics across all successful inputs.
+
+## SLO Attainment
+
+You can evaluate whether replayed requests meet per-agent request SLOs and whether the full trajectory meets an episode SLO:
+
+```bash
+ha-trace-slo-report /tmp/trace.reuse.replay.json \
+  --request-metric request_latency_s \
+  --request-target-s 10 \
+  --episode-metric wall_solve_time_s \
+  --episode-target-s 1800
+```
+
+To set different request SLOs for different agents, pass a JSON file such as:
+
+```json
+{
+  "Planner": 8.0,
+  "Inner-Navigator-Assistant": 12.0
+}
+```
+
+Then run:
+
+```bash
+ha-trace-slo-report /tmp/trace.reuse.replay.json \
+  --request-metric stage_latency_s \
+  --agent-request-targets /tmp/agent_targets.json \
+  --episode-metric service_span_s \
+  --episode-target-s 1500 \
+  --output /tmp/trace.slo_report.json
+```
+
+`request_latency_s` measures only executed vLLM request time. `stage_latency_s` adds synthetic tool sleep. `wall_solve_time_s` is the end-to-end replay time, while `service_span_s` is the time from first executed request arrival to last executed request departure.
+
+## Empirical SLOs
+
+You can derive empirical per-agent request SLOs directly from replay JSON files. This groups executed requests by agent and computes percentiles over `request_latency_s` or `stage_latency_s`.
+
+```bash
+ha-trace-derive-empirical-slos \
+  --glob "replays-two/*.replay.json" \
+  --request-metric request_latency_s \
+  --output /tmp/empirical_slos.json \
+  --interactive-targets-output /tmp/agent_targets_interactive.json \
+  --batch-targets-output /tmp/agent_targets_batch.json
+```
+
+The script recommends:
+
+- interactive targets = per-agent `p95`
+- batch targets = per-agent `p99`
 
 ## SLO Derivation
 
