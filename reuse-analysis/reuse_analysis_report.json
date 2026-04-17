@@ -1,0 +1,1636 @@
+{
+  "baseline_glob": "replays-two/*.baseline.replay.json",
+  "reuse_glob": "replays-two/*.reuse.replay.json",
+  "num_reuse_replays": 10,
+  "num_baseline_replays": 10,
+  "pairwise_summary": {
+    "matched_pair_keys": [
+      "astropy__astropy-12907_human",
+      "astropy__astropy-14365_human",
+      "astropy__astropy-6938_human",
+      "django__django-10924_human",
+      "django__django-11179_human",
+      "django__django-11742_human",
+      "matplotlib__matplotlib-18869_human",
+      "matplotlib__matplotlib-24265_human",
+      "matplotlib__matplotlib-24334_human",
+      "matplotlib__matplotlib-25433_human"
+    ],
+    "unmatched_baseline_keys": [],
+    "unmatched_reuse_keys": [],
+    "overall": {
+      "num_matched_pairs": 10,
+      "num_pairs_with_wall_time_improvement": 8,
+      "total_baseline_wall_solve_time_s": 10261.3332965374,
+      "total_reuse_wall_solve_time_s": 6689.248150348663,
+      "wall_time_delta_s": -3572.085146188736,
+      "wall_time_delta_pct": -34.81112096216684,
+      "total_baseline_lm_only_solve_time_s": 9967.768840551376,
+      "total_reuse_lm_only_solve_time_s": 6466.93567442894,
+      "lm_only_time_delta_s": -3500.8331661224365,
+      "lm_only_time_delta_pct": -35.12153243241528,
+      "total_baseline_vllm_requests": 930,
+      "total_reuse_vllm_requests_executed": 626,
+      "total_reuse_vllm_requests_avoided": 304,
+      "reuse_cache_hit_pct": 32.68817204301075,
+      "baseline_wall_tokens_per_s": 945.2889521942687,
+      "reuse_wall_tokens_per_s": 910.7051888458452,
+      "baseline_lm_tokens_per_s": 973.1290076208709,
+      "reuse_lm_tokens_per_s": 942.0123079448979,
+      "baseline_avg_request_latency_s": 10.718031011345566,
+      "reuse_avg_request_latency_s": 10.330568170014281
+    },
+    "rows": [
+      {
+        "instance_id": "astropy__astropy-12907",
+        "match_key": "astropy__astropy-12907_human",
+        "baseline_path": "replays-two/astropy__astropy-12907_human.baseline.replay.json",
+        "reuse_path": "replays-two/astropy__astropy-12907_human.reuse.replay.json",
+        "baseline_num_turns": 115,
+        "reuse_num_turns": 115,
+        "baseline_vllm_requests": 115,
+        "reuse_vllm_requests_executed": 79,
+        "reuse_vllm_requests_avoided": 36,
+        "reuse_cache_hit_pct": 31.30434782608696,
+        "baseline_wall_solve_time_s": 1848.1215934753418,
+        "reuse_wall_solve_time_s": 1272.515973329544,
+        "wall_time_delta_s": -575.6056201457977,
+        "wall_time_delta_pct": -31.14544098061141,
+        "baseline_lm_only_solve_time_s": 1826.3488085269928,
+        "reuse_lm_only_solve_time_s": 1256.382717847824,
+        "lm_only_time_delta_s": -569.9660906791687,
+        "lm_only_time_delta_pct": -31.207953706218046,
+        "baseline_total_prompt_tokens": 1298066,
+        "reuse_total_prompt_tokens": 1196261,
+        "baseline_total_completion_tokens": 28595,
+        "reuse_total_completion_tokens": 19298,
+        "baseline_wall_tokens_per_s": 717.842919364007,
+        "reuse_wall_tokens_per_s": 955.2406613957734,
+        "baseline_lm_tokens_per_s": 726.4006710032535,
+        "reuse_lm_tokens_per_s": 967.5069409441138,
+        "baseline_avg_request_latency_s": 15.881293987191242,
+        "reuse_avg_request_latency_s": 15.903578706934482,
+        "baseline_avg_prompt_tokens_per_request": 11287.53043478261,
+        "reuse_avg_prompt_tokens_per_executed_request": 15142.54430379747,
+        "baseline_avg_completion_tokens_per_request": 248.65217391304347,
+        "reuse_avg_completion_tokens_per_executed_request": 244.27848101265823
+      },
+      {
+        "instance_id": "astropy__astropy-14365",
+        "match_key": "astropy__astropy-14365_human",
+        "baseline_path": "replays-two/astropy__astropy-14365_human.baseline.replay.json",
+        "reuse_path": "replays-two/astropy__astropy-14365_human.reuse.replay.json",
+        "baseline_num_turns": 385,
+        "reuse_num_turns": 385,
+        "baseline_vllm_requests": 385,
+        "reuse_vllm_requests_executed": 216,
+        "reuse_vllm_requests_avoided": 169,
+        "reuse_cache_hit_pct": 43.896103896103895,
+        "baseline_wall_solve_time_s": 4633.591416597366,
+        "reuse_wall_solve_time_s": 2496.3245775699615,
+        "wall_time_delta_s": -2137.266839027405,
+        "wall_time_delta_pct": -46.12549201838962,
+        "baseline_lm_only_solve_time_s": 4527.081196546555,
+        "reuse_lm_only_solve_time_s": 2410.6995511054993,
+        "lm_only_time_delta_s": -2116.3816454410553,
+        "lm_only_time_delta_pct": -46.74936352048466,
+        "baseline_total_prompt_tokens": 6229138,
+        "reuse_total_prompt_tokens": 3516833,
+        "baseline_total_completion_tokens": 52920,
+        "reuse_total_completion_tokens": 29828,
+        "baseline_wall_tokens_per_s": 1355.764338111013,
+        "reuse_wall_tokens_per_s": 1420.7531471938976,
+        "baseline_lm_tokens_per_s": 1387.661879091591,
+        "reuse_lm_tokens_per_s": 1471.2165181984503,
+        "baseline_avg_request_latency_s": 11.75865245856248,
+        "reuse_avg_request_latency_s": 11.160646069932866,
+        "baseline_avg_prompt_tokens_per_request": 16179.57922077922,
+        "reuse_avg_prompt_tokens_per_executed_request": 16281.63425925926,
+        "baseline_avg_completion_tokens_per_request": 137.45454545454547,
+        "reuse_avg_completion_tokens_per_executed_request": 138.09259259259258
+      },
+      {
+        "instance_id": "astropy__astropy-6938",
+        "match_key": "astropy__astropy-6938_human",
+        "baseline_path": "replays-two/astropy__astropy-6938_human.baseline.replay.json",
+        "reuse_path": "replays-two/astropy__astropy-6938_human.reuse.replay.json",
+        "baseline_num_turns": 116,
+        "reuse_num_turns": 116,
+        "baseline_vllm_requests": 116,
+        "reuse_vllm_requests_executed": 69,
+        "reuse_vllm_requests_avoided": 47,
+        "reuse_cache_hit_pct": 40.51724137931034,
+        "baseline_wall_solve_time_s": 847.4160528182983,
+        "reuse_wall_solve_time_s": 542.6318731307983,
+        "wall_time_delta_s": -304.7841796875,
+        "wall_time_delta_pct": -35.9662976260436,
+        "baseline_lm_only_solve_time_s": 779.0570013523102,
+        "reuse_lm_only_solve_time_s": 504.85759139060974,
+        "lm_only_time_delta_s": -274.19940996170044,
+        "lm_only_time_delta_pct": -35.196321897593755,
+        "baseline_total_prompt_tokens": 582693,
+        "reuse_total_prompt_tokens": 304828,
+        "baseline_total_completion_tokens": 14476,
+        "reuse_total_completion_tokens": 9335,
+        "baseline_wall_tokens_per_s": 704.6939906483505,
+        "reuse_wall_tokens_per_s": 578.9615677888364,
+        "baseline_lm_tokens_per_s": 766.5279934117997,
+        "reuse_lm_tokens_per_s": 622.2804318632722,
+        "baseline_avg_request_latency_s": 6.716008632347502,
+        "reuse_avg_request_latency_s": 7.316776686820431,
+        "baseline_avg_prompt_tokens_per_request": 5023.2155172413795,
+        "reuse_avg_prompt_tokens_per_executed_request": 4417.797101449275,
+        "baseline_avg_completion_tokens_per_request": 124.79310344827586,
+        "reuse_avg_completion_tokens_per_executed_request": 135.28985507246378
+      },
+      {
+        "instance_id": "django__django-10924",
+        "match_key": "django__django-10924_human",
+        "baseline_path": "replays-two/django__django-10924_human.baseline.replay.json",
+        "reuse_path": "replays-two/django__django-10924_human.reuse.replay.json",
+        "baseline_num_turns": 17,
+        "reuse_num_turns": 17,
+        "baseline_vllm_requests": 17,
+        "reuse_vllm_requests_executed": 17,
+        "reuse_vllm_requests_avoided": 0,
+        "reuse_cache_hit_pct": 0.0,
+        "baseline_wall_solve_time_s": 153.0340793132782,
+        "reuse_wall_solve_time_s": 151.125501871109,
+        "wall_time_delta_s": -1.9085774421691895,
+        "wall_time_delta_pct": -1.2471584438797545,
+        "baseline_lm_only_solve_time_s": 151.4330620765686,
+        "reuse_lm_only_solve_time_s": 149.52175068855286,
+        "lm_only_time_delta_s": -1.911311388015747,
+        "lm_only_time_delta_pct": -1.2621493363512235,
+        "baseline_total_prompt_tokens": 25239,
+        "reuse_total_prompt_tokens": 25239,
+        "baseline_total_completion_tokens": 2838,
+        "reuse_total_completion_tokens": 2838,
+        "baseline_wall_tokens_per_s": 183.46893793847826,
+        "reuse_wall_tokens_per_s": 185.7859835194866,
+        "baseline_lm_tokens_per_s": 185.40865260852692,
+        "reuse_lm_tokens_per_s": 187.77870022725415,
+        "baseline_avg_request_latency_s": 8.907827180974623,
+        "reuse_avg_request_latency_s": 8.795397099326639,
+        "baseline_avg_prompt_tokens_per_request": 1484.6470588235295,
+        "reuse_avg_prompt_tokens_per_executed_request": 1484.6470588235295,
+        "baseline_avg_completion_tokens_per_request": 166.94117647058823,
+        "reuse_avg_completion_tokens_per_executed_request": 166.94117647058823
+      },
+      {
+        "instance_id": "django__django-11179",
+        "match_key": "django__django-11179_human",
+        "baseline_path": "replays-two/django__django-11179_human.baseline.replay.json",
+        "reuse_path": "replays-two/django__django-11179_human.reuse.replay.json",
+        "baseline_num_turns": 31,
+        "reuse_num_turns": 31,
+        "baseline_vllm_requests": 31,
+        "reuse_vllm_requests_executed": 31,
+        "reuse_vllm_requests_avoided": 0,
+        "reuse_cache_hit_pct": 0.0,
+        "baseline_wall_solve_time_s": 287.2925350666046,
+        "reuse_wall_solve_time_s": 290.0056471824646,
+        "wall_time_delta_s": 2.7131121158599854,
+        "wall_time_delta_pct": 0.9443726462405261,
+        "baseline_lm_only_solve_time_s": 273.3902907371521,
+        "reuse_lm_only_solve_time_s": 276.0982246398926,
+        "lm_only_time_delta_s": 2.7079339027404785,
+        "lm_only_time_delta_pct": 0.9905011240300373,
+        "baseline_total_prompt_tokens": 56523,
+        "reuse_total_prompt_tokens": 56523,
+        "baseline_total_completion_tokens": 5211,
+        "reuse_total_completion_tokens": 5211,
+        "baseline_wall_tokens_per_s": 214.8820190740002,
+        "reuse_wall_tokens_per_s": 212.87171680887457,
+        "baseline_lm_tokens_per_s": 225.80904330415098,
+        "reuse_lm_tokens_per_s": 223.59433886443125,
+        "baseline_avg_request_latency_s": 8.819041636682325,
+        "reuse_avg_request_latency_s": 8.906394343222342,
+        "baseline_avg_prompt_tokens_per_request": 1823.3225806451612,
+        "reuse_avg_prompt_tokens_per_executed_request": 1823.3225806451612,
+        "baseline_avg_completion_tokens_per_request": 168.09677419354838,
+        "reuse_avg_completion_tokens_per_executed_request": 168.09677419354838
+      },
+      {
+        "instance_id": "django__django-11742",
+        "match_key": "django__django-11742_human",
+        "baseline_path": "replays-two/django__django-11742_human.baseline.replay.json",
+        "reuse_path": "replays-two/django__django-11742_human.reuse.replay.json",
+        "baseline_num_turns": 45,
+        "reuse_num_turns": 45,
+        "baseline_vllm_requests": 45,
+        "reuse_vllm_requests_executed": 42,
+        "reuse_vllm_requests_avoided": 3,
+        "reuse_cache_hit_pct": 6.666666666666667,
+        "baseline_wall_solve_time_s": 364.72198963165283,
+        "reuse_wall_solve_time_s": 336.1052463054657,
+        "wall_time_delta_s": -28.616743326187134,
+        "wall_time_delta_pct": -7.84617986842206,
+        "baseline_lm_only_solve_time_s": 360.26866459846497,
+        "reuse_lm_only_solve_time_s": 331.64379501342773,
+        "lm_only_time_delta_s": -28.62486958503723,
+        "lm_only_time_delta_pct": -7.94542306834842,
+        "baseline_total_prompt_tokens": 154824,
+        "reuse_total_prompt_tokens": 143312,
+        "baseline_total_completion_tokens": 6797,
+        "reuse_total_completion_tokens": 6245,
+        "baseline_wall_tokens_per_s": 443.13478373823153,
+        "reuse_wall_tokens_per_s": 444.9707395048416,
+        "baseline_lm_tokens_per_s": 448.6124270067551,
+        "reuse_lm_tokens_per_s": 450.95672600762714,
+        "baseline_avg_request_latency_s": 8.005970324410333,
+        "reuse_avg_request_latency_s": 7.896280833653042,
+        "baseline_avg_prompt_tokens_per_request": 3440.5333333333333,
+        "reuse_avg_prompt_tokens_per_executed_request": 3412.190476190476,
+        "baseline_avg_completion_tokens_per_request": 151.04444444444445,
+        "reuse_avg_completion_tokens_per_executed_request": 148.6904761904762
+      },
+      {
+        "instance_id": "matplotlib__matplotlib-18869",
+        "match_key": "matplotlib__matplotlib-18869_human",
+        "baseline_path": "replays-two/matplotlib__matplotlib-18869_human.baseline.replay.json",
+        "reuse_path": "replays-two/matplotlib__matplotlib-18869_human.reuse.replay.json",
+        "baseline_num_turns": 44,
+        "reuse_num_turns": 44,
+        "baseline_vllm_requests": 44,
+        "reuse_vllm_requests_executed": 42,
+        "reuse_vllm_requests_avoided": 2,
+        "reuse_cache_hit_pct": 4.545454545454546,
+        "baseline_wall_solve_time_s": 394.97708654403687,
+        "reuse_wall_solve_time_s": 379.9991114139557,
+        "wall_time_delta_s": -14.977975130081177,
+        "wall_time_delta_pct": -3.792112413693458,
+        "baseline_lm_only_solve_time_s": 374.5741341114044,
+        "reuse_lm_only_solve_time_s": 359.5880284309387,
+        "lm_only_time_delta_s": -14.986105680465698,
+        "lm_only_time_delta_pct": -4.0008383696906815,
+        "baseline_total_prompt_tokens": 138549,
+        "reuse_total_prompt_tokens": 134389,
+        "baseline_total_completion_tokens": 7057,
+        "reuse_total_completion_tokens": 6759,
+        "baseline_wall_tokens_per_s": 368.6441693973204,
+        "reuse_wall_tokens_per_s": 371.44297383958633,
+        "baseline_lm_tokens_per_s": 388.724118245427,
+        "reuse_lm_tokens_per_s": 392.5269720905306,
+        "baseline_avg_request_latency_s": 8.513048502531918,
+        "reuse_avg_request_latency_s": 8.56161972454616,
+        "baseline_avg_prompt_tokens_per_request": 3148.840909090909,
+        "reuse_avg_prompt_tokens_per_executed_request": 3199.7380952380954,
+        "baseline_avg_completion_tokens_per_request": 160.38636363636363,
+        "reuse_avg_completion_tokens_per_executed_request": 160.92857142857142
+      },
+      {
+        "instance_id": "matplotlib__matplotlib-24265",
+        "match_key": "matplotlib__matplotlib-24265_human",
+        "baseline_path": "replays-two/matplotlib__matplotlib-24265_human.baseline.replay.json",
+        "reuse_path": "replays-two/matplotlib__matplotlib-24265_human.reuse.replay.json",
+        "baseline_num_turns": 30,
+        "reuse_num_turns": 30,
+        "baseline_vllm_requests": 30,
+        "reuse_vllm_requests_executed": 25,
+        "reuse_vllm_requests_avoided": 5,
+        "reuse_cache_hit_pct": 16.666666666666664,
+        "baseline_wall_solve_time_s": 232.0364122390747,
+        "reuse_wall_solve_time_s": 216.02535796165466,
+        "wall_time_delta_s": -16.011054277420044,
+        "wall_time_delta_pct": -6.900233512024539,
+        "baseline_lm_only_solve_time_s": 221.48452591896057,
+        "reuse_lm_only_solve_time_s": 205.46888852119446,
+        "lm_only_time_delta_s": -16.015637397766113,
+        "lm_only_time_delta_pct": -7.2310412347389486,
+        "baseline_total_prompt_tokens": 52895,
+        "reuse_total_prompt_tokens": 47937,
+        "baseline_total_completion_tokens": 4168,
+        "reuse_total_completion_tokens": 3886,
+        "baseline_wall_tokens_per_s": 245.9226095135712,
+        "reuse_wall_tokens_per_s": 239.89313332927694,
+        "baseline_lm_tokens_per_s": 257.6387662444594,
+        "reuse_lm_tokens_per_s": 252.21823300345721,
+        "baseline_avg_request_latency_s": 7.382817530632019,
+        "reuse_avg_request_latency_s": 8.218755540847779,
+        "baseline_avg_prompt_tokens_per_request": 1763.1666666666667,
+        "reuse_avg_prompt_tokens_per_executed_request": 1917.48,
+        "baseline_avg_completion_tokens_per_request": 138.93333333333334,
+        "reuse_avg_completion_tokens_per_executed_request": 155.44
+      },
+      {
+        "instance_id": "matplotlib__matplotlib-24334",
+        "match_key": "matplotlib__matplotlib-24334_human",
+        "baseline_path": "replays-two/matplotlib__matplotlib-24334_human.baseline.replay.json",
+        "reuse_path": "replays-two/matplotlib__matplotlib-24334_human.reuse.replay.json",
+        "baseline_num_turns": 117,
+        "reuse_num_turns": 117,
+        "baseline_vllm_requests": 117,
+        "reuse_vllm_requests_executed": 75,
+        "reuse_vllm_requests_avoided": 42,
+        "reuse_cache_hit_pct": 35.8974358974359,
+        "baseline_wall_solve_time_s": 1250.3581492900848,
+        "reuse_wall_solve_time_s": 752.1605532169342,
+        "wall_time_delta_s": -498.19759607315063,
+        "wall_time_delta_pct": -39.844391493430265,
+        "baseline_lm_only_solve_time_s": 1215.4993298053741,
+        "reuse_lm_only_solve_time_s": 731.4784061908722,
+        "lm_only_time_delta_s": -484.02092361450195,
+        "lm_only_time_delta_pct": -39.82074788079097,
+        "baseline_total_prompt_tokens": 944931,
+        "reuse_total_prompt_tokens": 496928,
+        "baseline_total_completion_tokens": 21843,
+        "reuse_total_completion_tokens": 13121,
+        "baseline_wall_tokens_per_s": 773.197663844479,
+        "reuse_wall_tokens_per_s": 678.1118709543578,
+        "baseline_lm_tokens_per_s": 795.371890624407,
+        "reuse_lm_tokens_per_s": 697.2851087375882,
+        "baseline_avg_request_latency_s": 10.388883160729694,
+        "reuse_avg_request_latency_s": 9.753045415878296,
+        "baseline_avg_prompt_tokens_per_request": 8076.333333333333,
+        "reuse_avg_prompt_tokens_per_executed_request": 6625.706666666667,
+        "baseline_avg_completion_tokens_per_request": 186.69230769230768,
+        "reuse_avg_completion_tokens_per_executed_request": 174.94666666666666
+      },
+      {
+        "instance_id": "matplotlib__matplotlib-25433",
+        "match_key": "matplotlib__matplotlib-25433_human",
+        "baseline_path": "replays-two/matplotlib__matplotlib-25433_human.baseline.replay.json",
+        "reuse_path": "replays-two/matplotlib__matplotlib-25433_human.reuse.replay.json",
+        "baseline_num_turns": 30,
+        "reuse_num_turns": 30,
+        "baseline_vllm_requests": 30,
+        "reuse_vllm_requests_executed": 30,
+        "reuse_vllm_requests_avoided": 0,
+        "reuse_cache_hit_pct": 0.0,
+        "baseline_wall_solve_time_s": 249.78398156166077,
+        "reuse_wall_solve_time_s": 252.3543083667755,
+        "wall_time_delta_s": 2.570326805114746,
+        "wall_time_delta_pct": 1.029019871108206,
+        "baseline_lm_only_solve_time_s": 238.631826877594,
+        "reuse_lm_only_solve_time_s": 241.19672060012817,
+        "lm_only_time_delta_s": 2.5648937225341797,
+        "lm_only_time_delta_pct": 1.0748330413821288,
+        "baseline_total_prompt_tokens": 68643,
+        "reuse_total_prompt_tokens": 68643,
+        "baseline_total_completion_tokens": 4519,
+        "reuse_total_completion_tokens": 4519,
+        "baseline_wall_tokens_per_s": 292.9010881425937,
+        "reuse_wall_tokens_per_s": 289.9177766113874,
+        "baseline_lm_tokens_per_s": 306.58944767467415,
+        "reuse_lm_tokens_per_s": 303.3291655788836,
+        "baseline_avg_request_latency_s": 7.9543942292531336,
+        "reuse_avg_request_latency_s": 8.039890686670939,
+        "baseline_avg_prompt_tokens_per_request": 2288.1,
+        "reuse_avg_prompt_tokens_per_executed_request": 2288.1,
+        "baseline_avg_completion_tokens_per_request": 150.63333333333333,
+        "reuse_avg_completion_tokens_per_executed_request": 150.63333333333333
+      }
+    ]
+  },
+  "cache_hits_by_agent": [
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "turns_total": 349,
+      "cache_hits": 120,
+      "cache_hit_pct": 34.38395415472779,
+      "executed_requests": 229,
+      "avg_executed_request_latency_s": 11.739013665628224,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "turns_total": 233,
+      "cache_hits": 69,
+      "cache_hit_pct": 29.613733905579398,
+      "executed_requests": 164,
+      "avg_executed_request_latency_s": 11.578871456588187,
+      "num_instances": 10
+    },
+    {
+      "agent": "Planner",
+      "turns_total": 229,
+      "cache_hits": 69,
+      "cache_hit_pct": 30.131004366812224,
+      "executed_requests": 160,
+      "avg_executed_request_latency_s": 9.096611890196801,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "turns_total": 119,
+      "cache_hits": 46,
+      "cache_hit_pct": 38.655462184873954,
+      "executed_requests": 73,
+      "avg_executed_request_latency_s": 5.812448269700351,
+      "num_instances": 8
+    }
+  ],
+  "cache_hits_by_tool_signature": [
+    {
+      "tool_signature": "LLM_ONLY",
+      "turns_total": 363,
+      "cache_hits": 112,
+      "cache_hit_pct": 30.853994490358126,
+      "executed_requests": 251,
+      "num_instances": 10,
+      "agents": [
+        "Inner-Editor-Assistant",
+        "Inner-Executor-Assistant",
+        "Inner-Navigator-Assistant",
+        "Planner"
+      ]
+    },
+    {
+      "tool_signature": "open_file",
+      "turns_total": 164,
+      "cache_hits": 62,
+      "cache_hit_pct": 37.80487804878049,
+      "executed_requests": 102,
+      "num_instances": 10,
+      "agents": [
+        "Inner-Navigator-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "open_file_gen",
+      "turns_total": 157,
+      "cache_hits": 54,
+      "cache_hit_pct": 34.394904458598724,
+      "executed_requests": 103,
+      "num_instances": 10,
+      "agents": [
+        "Inner-Editor-Assistant",
+        "Inner-Navigator-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "get_folder_structure",
+      "turns_total": 47,
+      "cache_hits": 15,
+      "cache_hit_pct": 31.914893617021278,
+      "executed_requests": 32,
+      "num_instances": 9,
+      "agents": [
+        "Inner-Editor-Assistant",
+        "Inner-Navigator-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "python",
+      "turns_total": 38,
+      "cache_hits": 14,
+      "cache_hit_pct": 36.84210526315789,
+      "executed_requests": 24,
+      "num_instances": 7,
+      "agents": [
+        "Inner-Editor-Assistant",
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "python_exec",
+      "turns_total": 31,
+      "cache_hits": 14,
+      "cache_hit_pct": 45.16129032258064,
+      "executed_requests": 17,
+      "num_instances": 5,
+      "agents": [
+        "Inner-Editor-Assistant",
+        "Inner-Navigator-Assistant",
+        "Planner"
+      ]
+    },
+    {
+      "tool_signature": "editor",
+      "turns_total": 51,
+      "cache_hits": 11,
+      "cache_hit_pct": 21.568627450980394,
+      "executed_requests": 40,
+      "num_instances": 10,
+      "agents": [
+        "Inner-Editor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "code_search",
+      "turns_total": 19,
+      "cache_hits": 4,
+      "cache_hit_pct": 21.052631578947366,
+      "executed_requests": 15,
+      "num_instances": 8,
+      "agents": [
+        "Inner-Navigator-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "get_all_symbols",
+      "turns_total": 12,
+      "cache_hits": 4,
+      "cache_hit_pct": 33.33333333333333,
+      "executed_requests": 8,
+      "num_instances": 3,
+      "agents": [
+        "Inner-Navigator-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "git",
+      "turns_total": 8,
+      "cache_hits": 4,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 4,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "echo",
+      "turns_total": 15,
+      "cache_hits": 3,
+      "cache_hit_pct": 20.0,
+      "executed_requests": 12,
+      "num_instances": 5,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "./setup.py",
+      "turns_total": 4,
+      "cache_hits": 2,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 2,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "pytest",
+      "turns_total": 3,
+      "cache_hits": 2,
+      "cache_hit_pct": 66.66666666666666,
+      "executed_requests": 1,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "find_file",
+      "turns_total": 3,
+      "cache_hits": 1,
+      "cache_hit_pct": 33.33333333333333,
+      "executed_requests": 2,
+      "num_instances": 2,
+      "agents": [
+        "Inner-Navigator-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "cat",
+      "turns_total": 2,
+      "cache_hits": 1,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 1,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "ls",
+      "turns_total": 2,
+      "cache_hits": 1,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 1,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "python3",
+      "turns_total": 8,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 8,
+      "num_instances": 2,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "export",
+      "turns_total": 2,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 2,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Executor-Assistant"
+      ]
+    },
+    {
+      "tool_signature": "go_to_def",
+      "turns_total": 1,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 1,
+      "num_instances": 1,
+      "agents": [
+        "Inner-Editor-Assistant"
+      ]
+    }
+  ],
+  "cache_hits_by_agent_tool_signature": [
+    {
+      "agent": "Planner",
+      "tool_signature": "LLM_ONLY",
+      "turns_total": 228,
+      "cache_hits": 69,
+      "cache_hit_pct": 30.263157894736842,
+      "executed_requests": 159,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "open_file",
+      "turns_total": 164,
+      "cache_hits": 62,
+      "cache_hit_pct": 37.80487804878049,
+      "executed_requests": 102,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "open_file_gen",
+      "turns_total": 146,
+      "cache_hits": 49,
+      "cache_hit_pct": 33.56164383561644,
+      "executed_requests": 97,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "LLM_ONLY",
+      "turns_total": 38,
+      "cache_hits": 19,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 19,
+      "num_instances": 7
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "LLM_ONLY",
+      "turns_total": 76,
+      "cache_hits": 17,
+      "cache_hit_pct": 22.36842105263158,
+      "executed_requests": 59,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "python",
+      "turns_total": 37,
+      "cache_hits": 14,
+      "cache_hit_pct": 37.83783783783784,
+      "executed_requests": 23,
+      "num_instances": 7
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "python_exec",
+      "turns_total": 24,
+      "cache_hits": 14,
+      "cache_hit_pct": 58.333333333333336,
+      "executed_requests": 10,
+      "num_instances": 4
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "get_folder_structure",
+      "turns_total": 40,
+      "cache_hits": 13,
+      "cache_hit_pct": 32.5,
+      "executed_requests": 27,
+      "num_instances": 9
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "editor",
+      "turns_total": 51,
+      "cache_hits": 11,
+      "cache_hit_pct": 21.568627450980394,
+      "executed_requests": 40,
+      "num_instances": 10
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "LLM_ONLY",
+      "turns_total": 21,
+      "cache_hits": 7,
+      "cache_hit_pct": 33.33333333333333,
+      "executed_requests": 14,
+      "num_instances": 9
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "open_file_gen",
+      "turns_total": 11,
+      "cache_hits": 5,
+      "cache_hit_pct": 45.45454545454545,
+      "executed_requests": 6,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "code_search",
+      "turns_total": 19,
+      "cache_hits": 4,
+      "cache_hit_pct": 21.052631578947366,
+      "executed_requests": 15,
+      "num_instances": 8
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "get_all_symbols",
+      "turns_total": 12,
+      "cache_hits": 4,
+      "cache_hit_pct": 33.33333333333333,
+      "executed_requests": 8,
+      "num_instances": 3
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "git",
+      "turns_total": 8,
+      "cache_hits": 4,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 4,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "echo",
+      "turns_total": 15,
+      "cache_hits": 3,
+      "cache_hit_pct": 20.0,
+      "executed_requests": 12,
+      "num_instances": 5
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "get_folder_structure",
+      "turns_total": 7,
+      "cache_hits": 2,
+      "cache_hit_pct": 28.57142857142857,
+      "executed_requests": 5,
+      "num_instances": 2
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "./setup.py",
+      "turns_total": 4,
+      "cache_hits": 2,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 2,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "pytest",
+      "turns_total": 3,
+      "cache_hits": 2,
+      "cache_hit_pct": 66.66666666666666,
+      "executed_requests": 1,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Navigator-Assistant",
+      "tool_signature": "find_file",
+      "turns_total": 3,
+      "cache_hits": 1,
+      "cache_hit_pct": 33.33333333333333,
+      "executed_requests": 2,
+      "num_instances": 2
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "cat",
+      "turns_total": 2,
+      "cache_hits": 1,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 1,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "ls",
+      "turns_total": 2,
+      "cache_hits": 1,
+      "cache_hit_pct": 50.0,
+      "executed_requests": 1,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "python3",
+      "turns_total": 8,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 8,
+      "num_instances": 2
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "python_exec",
+      "turns_total": 6,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 6,
+      "num_instances": 4
+    },
+    {
+      "agent": "Inner-Executor-Assistant",
+      "tool_signature": "export",
+      "turns_total": 2,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 2,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "go_to_def",
+      "turns_total": 1,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 1,
+      "num_instances": 1
+    },
+    {
+      "agent": "Inner-Editor-Assistant",
+      "tool_signature": "python",
+      "turns_total": 1,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 1,
+      "num_instances": 1
+    },
+    {
+      "agent": "Planner",
+      "tool_signature": "python_exec",
+      "turns_total": 1,
+      "cache_hits": 0,
+      "cache_hit_pct": 0.0,
+      "executed_requests": 1,
+      "num_instances": 1
+    }
+  ],
+  "top_exact_repeats": [
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 9,
+      "num_cache_hits": 8,
+      "first_turn_index": 43,
+      "turn_indices": [
+        43,
+        59,
+        80,
+        112,
+        151,
+        152,
+        250,
+        251,
+        252
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"get_folder_structure\"}",
+      "cache_key": "{\"action_signature_hash\":\"118ba15b6724cf0b\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"6513923a9077e97d\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"get_folder_structure\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Planner",
+      "num_occurrences": 9,
+      "num_cache_hits": 8,
+      "first_turn_index": 42,
+      "turn_indices": [
+        42,
+        58,
+        79,
+        111,
+        149,
+        150,
+        247,
+        248,
+        249
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"6f0768d482962c21\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 8,
+      "num_cache_hits": 7,
+      "first_turn_index": 60,
+      "turn_indices": [
+        60,
+        81,
+        113,
+        153,
+        154,
+        253,
+        254,
+        255
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"28f3c54572b10a2c\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"424752ab21b1abfe\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 7,
+      "num_cache_hits": 6,
+      "first_turn_index": 82,
+      "turn_indices": [
+        82,
+        114,
+        155,
+        156,
+        256,
+        257,
+        258
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"8c69b402b440f3e3\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"3eca31b9d2634165\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 7,
+      "num_cache_hits": 6,
+      "first_turn_index": 85,
+      "turn_indices": [
+        85,
+        117,
+        161,
+        162,
+        265,
+        266,
+        267
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"c142182db0afd7da\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"c4741f75699ec070\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Planner",
+      "num_occurrences": 7,
+      "num_cache_hits": 6,
+      "first_turn_index": 84,
+      "turn_indices": [
+        84,
+        116,
+        159,
+        160,
+        262,
+        263,
+        264
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"399f5456c0dc2c3d\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 7,
+      "num_cache_hits": 6,
+      "first_turn_index": 25,
+      "turn_indices": [
+        25,
+        26,
+        27,
+        100,
+        101,
+        112,
+        113
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"bc763cd41210febe\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 1,
+      "turn_indices": [
+        1,
+        16,
+        17,
+        41,
+        42,
+        43
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"24b92c376fc1c742\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"ff3bf7b01fb13dca\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 2,
+      "turn_indices": [
+        2,
+        18,
+        19,
+        44,
+        45,
+        46
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"66204709afa5381e\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"62866a982a4884f2\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 3,
+      "turn_indices": [
+        3,
+        20,
+        21,
+        47,
+        48,
+        49
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"7f242408470cbee1\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"4f718dc2a638046f\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Planner",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 0,
+      "turn_indices": [
+        0,
+        14,
+        15,
+        38,
+        39,
+        40
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"cf754b539d9e7f5a\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 115,
+      "turn_indices": [
+        115,
+        157,
+        158,
+        259,
+        260,
+        261
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"python_exec\"}",
+      "cache_key": "{\"action_signature_hash\":\"9c759c3bc8877e8e\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"4d39eb72c0d7a267\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"python_exec\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 118,
+      "turn_indices": [
+        118,
+        163,
+        164,
+        268,
+        269,
+        270
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":true,\"content_hash\":\"31ff0cfd94782584\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24265",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 6,
+      "num_cache_hits": 5,
+      "first_turn_index": 2,
+      "turn_indices": [
+        2,
+        3,
+        4,
+        7,
+        8,
+        9
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"da39a3ee5e6b4b0d\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 5,
+      "num_cache_hits": 4,
+      "first_turn_index": 22,
+      "turn_indices": [
+        22,
+        23,
+        50,
+        51,
+        52
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"python_exec\"}",
+      "cache_key": "{\"action_signature_hash\":\"910b113765697228\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"50f02b8efef26bc7\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"python_exec\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 4,
+      "num_cache_hits": 3,
+      "first_turn_index": 201,
+      "turn_indices": [
+        201,
+        202,
+        207,
+        208
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"40e889c13ff53f8d\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"ccb1abad9a19939e\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "django__django-11742",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 4,
+      "num_cache_hits": 3,
+      "first_turn_index": 18,
+      "turn_indices": [
+        18,
+        29,
+        40,
+        43
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"bc763cd41210febe\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24334",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 4,
+      "num_cache_hits": 3,
+      "first_turn_index": 109,
+      "turn_indices": [
+        109,
+        110,
+        111,
+        112
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"da39a3ee5e6b4b0d\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 56,
+      "turn_indices": [
+        56,
+        57,
+        58
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"faea51bfefe317b4\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"2a1c14477c000f34\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 59,
+      "turn_indices": [
+        59,
+        60,
+        61
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"python_exec\"}",
+      "cache_key": "{\"action_signature_hash\":\"baebdc6f7099170a\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"475b73019da8ff93\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"python_exec\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Planner",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 53,
+      "turn_indices": [
+        53,
+        54,
+        55
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"5d48b2f91d427700\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 283,
+      "turn_indices": [
+        283,
+        284,
+        285
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"8bb46f10681ee749\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"cd088ed8356c9549\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 286,
+      "turn_indices": [
+        286,
+        287,
+        288
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"40e889c13ff53f8d\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"481011733ff0a0f3\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 289,
+      "turn_indices": [
+        289,
+        290,
+        291
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"2c526fb36a070ec4\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"3c065c17b373acdd\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 292,
+      "turn_indices": [
+        292,
+        293,
+        294
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"c9577d12a13940e8\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"13ba71d8c40839ba\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 295,
+      "turn_indices": [
+        295,
+        296,
+        297
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"c5c921bea82d3837\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"e37beaefa63cc7b7\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 274,
+      "turn_indices": [
+        274,
+        275,
+        276
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"ca8e5da6a651d2f2\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"757bd7319e670129\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 277,
+      "turn_indices": [
+        277,
+        278,
+        279
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":true,\"content_hash\":\"0121cdcd9e07449b\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 301,
+      "turn_indices": [
+        301,
+        302,
+        303
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file\"}",
+      "cache_key": "{\"action_signature_hash\":\"df9331289814a19a\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"8df1a34e222fa537\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Planner",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 271,
+      "turn_indices": [
+        271,
+        272,
+        273
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"ccd50251a149a72a\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Planner",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 280,
+      "turn_indices": [
+        280,
+        281,
+        282
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"50265a5792b8cb29\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "agent": "Planner",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 298,
+      "turn_indices": [
+        298,
+        299,
+        300
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"d8c3f5de7ef204fa\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 1,
+      "turn_indices": [
+        1,
+        36,
+        37
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"get_folder_structure\"}",
+      "cache_key": "{\"action_signature_hash\":\"65ed864ecf207523\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"dc5b00707f08a434\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"get_folder_structure\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Planner",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 0,
+      "turn_indices": [
+        0,
+        34,
+        35
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"310b7cf296d28570\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-18869",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 15,
+      "turn_indices": [
+        15,
+        34,
+        35
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"da39a3ee5e6b4b0d\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24334",
+      "agent": "Inner-Navigator-Assistant",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 1,
+      "turn_indices": [
+        1,
+        41,
+        42
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Navigator-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"code_search\"}",
+      "cache_key": "{\"action_signature_hash\":\"cb865b4114c45b8e\",\"agent\":\"Inner-Navigator-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"41a21ba597b843fb\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"code_search\"}"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24334",
+      "agent": "Planner",
+      "num_occurrences": 3,
+      "num_cache_hits": 2,
+      "first_turn_index": 0,
+      "turn_indices": [
+        0,
+        39,
+        40
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"c5e1a5b6fc2af0fc\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 32,
+      "turn_indices": [
+        32,
+        33
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"fab81abf837c0546\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"e670c751026de321\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 34,
+      "turn_indices": [
+        34,
+        35
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"bc763cd41210febe\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 26,
+      "turn_indices": [
+        26,
+        27
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"echo\"}",
+      "cache_key": "{\"action_signature_hash\":\"2c837957c14386a0\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"cfa2b4ccfc74fe22\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"echo\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 28,
+      "turn_indices": [
+        28,
+        29
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":true,\"content_hash\":\"89e7ade39484edc8\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Planner",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 24,
+      "turn_indices": [
+        24,
+        25
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"4b0149a30f905ec0\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "agent": "Planner",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 30,
+      "turn_indices": [
+        30,
+        31
+      ],
+      "resource_group_key": "{\"agent\":\"Planner\",\"completion_bucket\":\"256-1023\",\"prompt_bucket\":\"4096+\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Planner\",\"contains_final_answer\":false,\"content_hash\":\"ca7c00011edb8a37\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 54,
+      "turn_indices": [
+        54,
+        55
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"256-1023\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"6fd8a75accd8d3a7\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"0bbb154eb513c10c\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 56,
+      "turn_indices": [
+        56,
+        57
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"open_file_gen\"}",
+      "cache_key": "{\"action_signature_hash\":\"4b488a8513261aa1\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"82bd5933b7f8f49d\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"open_file_gen\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 58,
+      "turn_indices": [
+        58,
+        59
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"editor\"}",
+      "cache_key": "{\"action_signature_hash\":\"bd2e3cf2ee21006c\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"f449116b59db0b75\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"editor\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Editor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 60,
+      "turn_indices": [
+        60,
+        61
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Editor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"LLM_ONLY\"}",
+      "cache_key": "{\"action_signature_hash\":\"da39a3ee5e6b4b0d\",\"agent\":\"Inner-Editor-Assistant\",\"contains_final_answer\":true,\"content_hash\":\"974bca4781d75b44\",\"kind\":\"llm\",\"subgoal\":\"\",\"tool_name\":\"\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 64,
+      "turn_indices": [
+        64,
+        65
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"python\"}",
+      "cache_key": "{\"action_signature_hash\":\"db2f2d04539abcdc\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"c18314ea25ffa9c0\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"python\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 66,
+      "turn_indices": [
+        66,
+        67
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"./setup.py\"}",
+      "cache_key": "{\"action_signature_hash\":\"287bd3eb24951ba5\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"1a704807dbec2f45\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"./setup.py\"}"
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "agent": "Inner-Executor-Assistant",
+      "num_occurrences": 2,
+      "num_cache_hits": 1,
+      "first_turn_index": 68,
+      "turn_indices": [
+        68,
+        69
+      ],
+      "resource_group_key": "{\"agent\":\"Inner-Executor-Assistant\",\"completion_bucket\":\"0-255\",\"prompt_bucket\":\"1024-4095\",\"slo_class\":\"interactive\",\"subgoal\":\"\",\"tool_signature\":\"git\"}",
+      "cache_key": "{\"action_signature_hash\":\"4a2013c90ee61a59\",\"agent\":\"Inner-Executor-Assistant\",\"contains_final_answer\":false,\"content_hash\":\"95192c43ae527770\",\"kind\":\"action\",\"subgoal\":\"\",\"tool_name\":\"git\"}"
+    }
+  ]
+}

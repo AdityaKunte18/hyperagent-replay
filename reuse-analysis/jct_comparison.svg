@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+<rect width="100%" height="100%" fill="white"/>
+<text x="20.0" y="30.0" font-size="20" font-family="monospace" text-anchor="start">Baseline vs Reuse Wall Time</text>
+<text x="320.0" y="610.0" font-size="12" font-family="monospace" text-anchor="start">wall_solve_time_s</text>
+<rect x="320.0" y="40.0" width="12" height="12" fill="#c35a3a"/>
+<text x="338.0" y="50.0" font-size="12" font-family="monospace" text-anchor="start">baseline</text>
+<rect x="320.0" y="58.0" width="12" height="12" fill="#3a7bd5"/>
+<text x="338.0" y="68.0" font-size="12" font-family="monospace" text-anchor="start">reuse</text>
+<line x1="320.0" y1="70.0" x2="320.0" y2="565.0" stroke="#dddddd" stroke-width="1"/>
+<text x="320.0" y="584.0" font-size="11" font-family="monospace" text-anchor="middle">0</text>
+<line x1="472.0" y1="70.0" x2="472.0" y2="565.0" stroke="#dddddd" stroke-width="1"/>
+<text x="472.0" y="584.0" font-size="11" font-family="monospace" text-anchor="middle">927</text>
+<line x1="624.0" y1="70.0" x2="624.0" y2="565.0" stroke="#dddddd" stroke-width="1"/>
+<text x="624.0" y="584.0" font-size="11" font-family="monospace" text-anchor="middle">1853</text>
+<line x1="776.0" y1="70.0" x2="776.0" y2="565.0" stroke="#dddddd" stroke-width="1"/>
+<text x="776.0" y="584.0" font-size="11" font-family="monospace" text-anchor="middle">2780</text>
+<line x1="928.0" y1="70.0" x2="928.0" y2="565.0" stroke="#dddddd" stroke-width="1"/>
+<text x="928.0" y="584.0" font-size="11" font-family="monospace" text-anchor="middle">3707</text>
+<line x1="1080.0" y1="70.0" x2="1080.0" y2="565.0" stroke="#dddddd" stroke-width="1"/>
+<text x="1080.0" y="584.0" font-size="11" font-family="monospace" text-anchor="middle">4634</text>
+<text x="10.0" y="100.0" font-size="12" font-family="monospace" text-anchor="start">astropy__astropy-12907</text>
+<rect x="320.0" y="80.0" width="303.1" height="14" fill="#c35a3a"/>
+<text x="629.1" y="92.0" font-size="11" font-family="monospace" text-anchor="start">1848.1</text>
+<rect x="320.0" y="98.0" width="208.7" height="14" fill="#3a7bd5"/>
+<text x="534.7" y="110.0" font-size="11" font-family="monospace" text-anchor="start">1272.5</text>
+<text x="10.0" y="146.0" font-size="12" font-family="monospace" text-anchor="start">astropy__astropy-14365</text>
+<rect x="320.0" y="126.0" width="760.0" height="14" fill="#c35a3a"/>
+<text x="1086.0" y="138.0" font-size="11" font-family="monospace" text-anchor="start">4633.6</text>
+<rect x="320.0" y="144.0" width="409.4" height="14" fill="#3a7bd5"/>
+<text x="735.4" y="156.0" font-size="11" font-family="monospace" text-anchor="start">2496.3</text>
+<text x="10.0" y="192.0" font-size="12" font-family="monospace" text-anchor="start">astropy__astropy-6938</text>
+<rect x="320.0" y="172.0" width="139.0" height="14" fill="#c35a3a"/>
+<text x="465.0" y="184.0" font-size="11" font-family="monospace" text-anchor="start">847.4</text>
+<rect x="320.0" y="190.0" width="89.0" height="14" fill="#3a7bd5"/>
+<text x="415.0" y="202.0" font-size="11" font-family="monospace" text-anchor="start">542.6</text>
+<text x="10.0" y="238.0" font-size="12" font-family="monospace" text-anchor="start">django__django-10924</text>
+<rect x="320.0" y="218.0" width="25.1" height="14" fill="#c35a3a"/>
+<text x="351.1" y="230.0" font-size="11" font-family="monospace" text-anchor="start">153.0</text>
+<rect x="320.0" y="236.0" width="24.8" height="14" fill="#3a7bd5"/>
+<text x="350.8" y="248.0" font-size="11" font-family="monospace" text-anchor="start">151.1</text>
+<text x="10.0" y="284.0" font-size="12" font-family="monospace" text-anchor="start">django__django-11179</text>
+<rect x="320.0" y="264.0" width="47.1" height="14" fill="#c35a3a"/>
+<text x="373.1" y="276.0" font-size="11" font-family="monospace" text-anchor="start">287.3</text>
+<rect x="320.0" y="282.0" width="47.6" height="14" fill="#3a7bd5"/>
+<text x="373.6" y="294.0" font-size="11" font-family="monospace" text-anchor="start">290.0</text>
+<text x="10.0" y="330.0" font-size="12" font-family="monospace" text-anchor="start">django__django-11742</text>
+<rect x="320.0" y="310.0" width="59.8" height="14" fill="#c35a3a"/>
+<text x="385.8" y="322.0" font-size="11" font-family="monospace" text-anchor="start">364.7</text>
+<rect x="320.0" y="328.0" width="55.1" height="14" fill="#3a7bd5"/>
+<text x="381.1" y="340.0" font-size="11" font-family="monospace" text-anchor="start">336.1</text>
+<text x="10.0" y="376.0" font-size="12" font-family="monospace" text-anchor="start">matplotlib__matplotlib-18869</text>
+<rect x="320.0" y="356.0" width="64.8" height="14" fill="#c35a3a"/>
+<text x="390.8" y="368.0" font-size="11" font-family="monospace" text-anchor="start">395.0</text>
+<rect x="320.0" y="374.0" width="62.3" height="14" fill="#3a7bd5"/>
+<text x="388.3" y="386.0" font-size="11" font-family="monospace" text-anchor="start">380.0</text>
+<text x="10.0" y="422.0" font-size="12" font-family="monospace" text-anchor="start">matplotlib__matplotlib-24265</text>
+<rect x="320.0" y="402.0" width="38.1" height="14" fill="#c35a3a"/>
+<text x="364.1" y="414.0" font-size="11" font-family="monospace" text-anchor="start">232.0</text>
+<rect x="320.0" y="420.0" width="35.4" height="14" fill="#3a7bd5"/>
+<text x="361.4" y="432.0" font-size="11" font-family="monospace" text-anchor="start">216.0</text>
+<text x="10.0" y="468.0" font-size="12" font-family="monospace" text-anchor="start">matplotlib__matplotlib-24334</text>
+<rect x="320.0" y="448.0" width="205.1" height="14" fill="#c35a3a"/>
+<text x="531.1" y="460.0" font-size="11" font-family="monospace" text-anchor="start">1250.4</text>
+<rect x="320.0" y="466.0" width="123.4" height="14" fill="#3a7bd5"/>
+<text x="449.4" y="478.0" font-size="11" font-family="monospace" text-anchor="start">752.2</text>
+<text x="10.0" y="514.0" font-size="12" font-family="monospace" text-anchor="start">matplotlib__matplotlib-25433</text>
+<rect x="320.0" y="494.0" width="41.0" height="14" fill="#c35a3a"/>
+<text x="367.0" y="506.0" font-size="11" font-family="monospace" text-anchor="start">249.8</text>
+<rect x="320.0" y="512.0" width="41.4" height="14" fill="#3a7bd5"/>
+<text x="367.4" y="524.0" font-size="11" font-family="monospace" text-anchor="start">252.4</text>
+</svg>

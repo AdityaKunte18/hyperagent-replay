@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="254">
+<rect width="100%" height="100%" fill="white"/>
+<text x="20.0" y="30.0" font-size="20" font-family="monospace" text-anchor="start">Cache Hit Rate by Agent</text>
+<text x="320.0" y="234.0" font-size="12" font-family="monospace" text-anchor="start">cache_hit_pct</text>
+<line x1="320.0" y1="50.0" x2="320.0" y2="189.0" stroke="#dddddd" stroke-width="1"/>
+<text x="320.0" y="208.0" font-size="11" font-family="monospace" text-anchor="middle">0</text>
+<line x1="448.0" y1="50.0" x2="448.0" y2="189.0" stroke="#dddddd" stroke-width="1"/>
+<text x="448.0" y="208.0" font-size="11" font-family="monospace" text-anchor="middle">8</text>
+<line x1="576.0" y1="50.0" x2="576.0" y2="189.0" stroke="#dddddd" stroke-width="1"/>
+<text x="576.0" y="208.0" font-size="11" font-family="monospace" text-anchor="middle">15</text>
+<line x1="704.0" y1="50.0" x2="704.0" y2="189.0" stroke="#dddddd" stroke-width="1"/>
+<text x="704.0" y="208.0" font-size="11" font-family="monospace" text-anchor="middle">23</text>
+<line x1="832.0" y1="50.0" x2="832.0" y2="189.0" stroke="#dddddd" stroke-width="1"/>
+<text x="832.0" y="208.0" font-size="11" font-family="monospace" text-anchor="middle">31</text>
+<line x1="960.0" y1="50.0" x2="960.0" y2="189.0" stroke="#dddddd" stroke-width="1"/>
+<text x="960.0" y="208.0" font-size="11" font-family="monospace" text-anchor="middle">39</text>
+<text x="10.0" y="74.0" font-size="12" font-family="monospace" text-anchor="start">Inner-Navigator-Assistant</text>
+<rect x="320.0" y="60.0" width="569.3" height="16" fill="#2f9e44"/>
+<text x="897.3" y="74.0" font-size="11" font-family="monospace" text-anchor="start">120/349 hits</text>
+<text x="10.0" y="100.0" font-size="12" font-family="monospace" text-anchor="start">Inner-Editor-Assistant</text>
+<rect x="320.0" y="86.0" width="490.3" height="16" fill="#2f9e44"/>
+<text x="818.3" y="100.0" font-size="11" font-family="monospace" text-anchor="start">69/233 hits</text>
+<text x="10.0" y="126.0" font-size="12" font-family="monospace" text-anchor="start">Planner</text>
+<rect x="320.0" y="112.0" width="498.9" height="16" fill="#2f9e44"/>
+<text x="826.9" y="126.0" font-size="11" font-family="monospace" text-anchor="start">69/229 hits</text>
+<text x="10.0" y="152.0" font-size="12" font-family="monospace" text-anchor="start">Inner-Executor-Assistant</text>
+<rect x="320.0" y="138.0" width="640.0" height="16" fill="#2f9e44"/>
+<text x="968.0" y="152.0" font-size="11" font-family="monospace" text-anchor="start">46/119 hits</text>
+</svg>
