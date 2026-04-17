@@ -61,6 +61,77 @@ def format_float(value: float) -> str:
     return f"{value:.3f}"
 
 
+def int_or_zero(value: Any) -> int:
+    if value is None:
+        return 0
+    return int(value)
+
+
+def turn_token_counts(turn: dict[str, Any]) -> tuple[int, int, int]:
+    prompt_tokens = int_or_zero(turn.get("prompt_tokens"))
+    completion_tokens = int_or_zero(turn.get("completion_tokens"))
+    total_tokens = int_or_zero(turn.get("total_tokens"))
+    if total_tokens <= 0:
+        total_tokens = prompt_tokens + completion_tokens
+    return prompt_tokens, completion_tokens, total_tokens
+
+
+def source_turns_by_turn_index(replay: dict[str, Any]) -> dict[int, dict[str, Any]]:
+    source_by_turn_index: dict[int, dict[str, Any]] = {}
+    for turn in replay.get("turn_metrics", []):
+        if not is_executed_request(turn):
+            continue
+        turn_index = turn.get("turn_index")
+        if turn_index is None:
+            continue
+        source_by_turn_index[int(turn_index)] = turn
+    return source_by_turn_index
+
+
+def estimate_cache_hit_savings(
+    turn: dict[str, Any],
+    source_by_turn_index: dict[int, dict[str, Any]],
+) -> dict[str, float | int]:
+    if not turn.get("cache_hit"):
+        return {
+            "saved_lm_time_s": 0.0,
+            "saved_stage_time_s": 0.0,
+            "saved_prompt_tokens": 0,
+            "saved_completion_tokens": 0,
+            "saved_total_tokens": 0,
+        }
+
+    source_turn_index = turn.get("cache_source_turn_index")
+    source_turn = None
+    if source_turn_index is not None:
+        source_turn = source_by_turn_index.get(int(source_turn_index))
+
+    saved_prompt_tokens = (
+        int_or_zero(source_turn.get("prompt_tokens")) if source_turn is not None else
+        int_or_zero(turn.get("cache_source_prompt_tokens"))
+    )
+    saved_completion_tokens = (
+        int_or_zero(source_turn.get("completion_tokens")) if source_turn is not None else
+        int_or_zero(turn.get("cache_source_completion_tokens"))
+    )
+    saved_total_tokens = saved_prompt_tokens + saved_completion_tokens
+    saved_lm_time_s = (
+        float(source_turn.get("request_latency_s") or 0.0)
+        if source_turn is not None else 0.0
+    )
+    saved_stage_time_s = (
+        saved_lm_time_s + float(source_turn.get("synthetic_tool_sleep_s") or 0.0)
+        if source_turn is not None else saved_lm_time_s
+    )
+    return {
+        "saved_lm_time_s": saved_lm_time_s,
+        "saved_stage_time_s": saved_stage_time_s,
+        "saved_prompt_tokens": saved_prompt_tokens,
+        "saved_completion_tokens": saved_completion_tokens,
+        "saved_total_tokens": saved_total_tokens,
+    }
+
+
 def tool_signature_for_turn(turn: dict[str, Any]) -> str:
     resource_group = turn.get("resource_group")
     if isinstance(resource_group, dict):
@@ -250,10 +321,19 @@ def build_cache_hits_by_agent(reuse_replays: list[dict[str, Any]]) -> list[dict[
             "cache_hits": 0,
             "executed_requests": 0,
             "total_request_latency_s": 0.0,
+            "total_prompt_tokens": 0,
+            "total_completion_tokens": 0,
+            "total_tokens": 0,
+            "estimated_saved_lm_time_s": 0.0,
+            "estimated_saved_stage_time_s": 0.0,
+            "estimated_saved_prompt_tokens": 0,
+            "estimated_saved_completion_tokens": 0,
+            "estimated_saved_total_tokens": 0,
             "instances": set(),
         })
     for replay in reuse_replays:
         instance_id = str(replay.get("instance_id", ""))
+        source_by_turn_index = source_turns_by_turn_index(replay)
         for turn in replay.get("turn_metrics", []):
             agent = str(turn.get("agent", ""))
             stats = stats_by_agent[agent]
@@ -263,6 +343,17 @@ def build_cache_hits_by_agent(reuse_replays: list[dict[str, Any]]) -> list[dict[
                 stats["executed_requests"] += 1
                 stats["total_request_latency_s"] += float(
                     turn.get("request_latency_s") or 0.0)
+                prompt_tokens, completion_tokens, total_tokens = turn_token_counts(turn)
+                stats["total_prompt_tokens"] += prompt_tokens
+                stats["total_completion_tokens"] += completion_tokens
+                stats["total_tokens"] += total_tokens
+            savings = estimate_cache_hit_savings(turn, source_by_turn_index)
+            stats["estimated_saved_lm_time_s"] += float(savings["saved_lm_time_s"])
+            stats["estimated_saved_stage_time_s"] += float(savings["saved_stage_time_s"])
+            stats["estimated_saved_prompt_tokens"] += int(savings["saved_prompt_tokens"])
+            stats["estimated_saved_completion_tokens"] += int(
+                savings["saved_completion_tokens"])
+            stats["estimated_saved_total_tokens"] += int(savings["saved_total_tokens"])
             stats["instances"].add(instance_id)
 
     rows: list[dict[str, Any]] = []
@@ -277,6 +368,21 @@ def build_cache_hits_by_agent(reuse_replays: list[dict[str, Any]]) -> list[dict[
             "executed_requests": stats["executed_requests"],
             "avg_executed_request_latency_s": safe_div(
                 stats["total_request_latency_s"], stats["executed_requests"]),
+            "total_prompt_tokens": stats["total_prompt_tokens"],
+            "total_completion_tokens": stats["total_completion_tokens"],
+            "total_tokens": stats["total_tokens"],
+            "lm_tokens_per_s": safe_div(stats["total_tokens"],
+                                         stats["total_request_latency_s"]),
+            "avg_prompt_tokens_per_executed_request": safe_div(
+                stats["total_prompt_tokens"], stats["executed_requests"]),
+            "avg_completion_tokens_per_executed_request": safe_div(
+                stats["total_completion_tokens"], stats["executed_requests"]),
+            "estimated_saved_lm_time_s": stats["estimated_saved_lm_time_s"],
+            "estimated_saved_stage_time_s": stats["estimated_saved_stage_time_s"],
+            "estimated_saved_prompt_tokens": stats["estimated_saved_prompt_tokens"],
+            "estimated_saved_completion_tokens": stats[
+                "estimated_saved_completion_tokens"],
+            "estimated_saved_total_tokens": stats["estimated_saved_total_tokens"],
             "num_instances": len(stats["instances"]),
         })
     return rows
@@ -290,18 +396,42 @@ def build_cache_hits_by_tool_signature(
             "turns_total": 0,
             "cache_hits": 0,
             "executed_requests": 0,
+            "total_request_latency_s": 0.0,
+            "total_prompt_tokens": 0,
+            "total_completion_tokens": 0,
+            "total_tokens": 0,
+            "estimated_saved_lm_time_s": 0.0,
+            "estimated_saved_stage_time_s": 0.0,
+            "estimated_saved_prompt_tokens": 0,
+            "estimated_saved_completion_tokens": 0,
+            "estimated_saved_total_tokens": 0,
             "instances": set(),
             "agents": set(),
         })
     for replay in reuse_replays:
         instance_id = str(replay.get("instance_id", ""))
+        source_by_turn_index = source_turns_by_turn_index(replay)
         for turn in replay.get("turn_metrics", []):
             tool_signature = tool_signature_for_turn(turn)
             agent = str(turn.get("agent", ""))
             stats = stats_by_tool[tool_signature]
             stats["turns_total"] += 1
             stats["cache_hits"] += int(bool(turn.get("cache_hit")))
-            stats["executed_requests"] += int(is_executed_request(turn))
+            if is_executed_request(turn):
+                stats["executed_requests"] += 1
+                stats["total_request_latency_s"] += float(
+                    turn.get("request_latency_s") or 0.0)
+                prompt_tokens, completion_tokens, total_tokens = turn_token_counts(turn)
+                stats["total_prompt_tokens"] += prompt_tokens
+                stats["total_completion_tokens"] += completion_tokens
+                stats["total_tokens"] += total_tokens
+            savings = estimate_cache_hit_savings(turn, source_by_turn_index)
+            stats["estimated_saved_lm_time_s"] += float(savings["saved_lm_time_s"])
+            stats["estimated_saved_stage_time_s"] += float(savings["saved_stage_time_s"])
+            stats["estimated_saved_prompt_tokens"] += int(savings["saved_prompt_tokens"])
+            stats["estimated_saved_completion_tokens"] += int(
+                savings["saved_completion_tokens"])
+            stats["estimated_saved_total_tokens"] += int(savings["saved_total_tokens"])
             stats["instances"].add(instance_id)
             stats["agents"].add(agent)
 
@@ -315,6 +445,23 @@ def build_cache_hits_by_tool_signature(
             "cache_hits": stats["cache_hits"],
             "cache_hit_pct": safe_div(stats["cache_hits"], stats["turns_total"]) * 100.0,
             "executed_requests": stats["executed_requests"],
+            "avg_executed_request_latency_s": safe_div(
+                stats["total_request_latency_s"], stats["executed_requests"]),
+            "total_prompt_tokens": stats["total_prompt_tokens"],
+            "total_completion_tokens": stats["total_completion_tokens"],
+            "total_tokens": stats["total_tokens"],
+            "lm_tokens_per_s": safe_div(stats["total_tokens"],
+                                         stats["total_request_latency_s"]),
+            "avg_prompt_tokens_per_executed_request": safe_div(
+                stats["total_prompt_tokens"], stats["executed_requests"]),
+            "avg_completion_tokens_per_executed_request": safe_div(
+                stats["total_completion_tokens"], stats["executed_requests"]),
+            "estimated_saved_lm_time_s": stats["estimated_saved_lm_time_s"],
+            "estimated_saved_stage_time_s": stats["estimated_saved_stage_time_s"],
+            "estimated_saved_prompt_tokens": stats["estimated_saved_prompt_tokens"],
+            "estimated_saved_completion_tokens": stats[
+                "estimated_saved_completion_tokens"],
+            "estimated_saved_total_tokens": stats["estimated_saved_total_tokens"],
             "num_instances": len(stats["instances"]),
             "agents": sorted(stats["agents"]),
         })
@@ -329,17 +476,41 @@ def build_cache_hits_by_agent_tool_signature(
             "turns_total": 0,
             "cache_hits": 0,
             "executed_requests": 0,
+            "total_request_latency_s": 0.0,
+            "total_prompt_tokens": 0,
+            "total_completion_tokens": 0,
+            "total_tokens": 0,
+            "estimated_saved_lm_time_s": 0.0,
+            "estimated_saved_stage_time_s": 0.0,
+            "estimated_saved_prompt_tokens": 0,
+            "estimated_saved_completion_tokens": 0,
+            "estimated_saved_total_tokens": 0,
             "instances": set(),
         })
     for replay in reuse_replays:
         instance_id = str(replay.get("instance_id", ""))
+        source_by_turn_index = source_turns_by_turn_index(replay)
         for turn in replay.get("turn_metrics", []):
             agent = str(turn.get("agent", ""))
             tool_signature = tool_signature_for_turn(turn)
             stats = stats_by_key[(agent, tool_signature)]
             stats["turns_total"] += 1
             stats["cache_hits"] += int(bool(turn.get("cache_hit")))
-            stats["executed_requests"] += int(is_executed_request(turn))
+            if is_executed_request(turn):
+                stats["executed_requests"] += 1
+                stats["total_request_latency_s"] += float(
+                    turn.get("request_latency_s") or 0.0)
+                prompt_tokens, completion_tokens, total_tokens = turn_token_counts(turn)
+                stats["total_prompt_tokens"] += prompt_tokens
+                stats["total_completion_tokens"] += completion_tokens
+                stats["total_tokens"] += total_tokens
+            savings = estimate_cache_hit_savings(turn, source_by_turn_index)
+            stats["estimated_saved_lm_time_s"] += float(savings["saved_lm_time_s"])
+            stats["estimated_saved_stage_time_s"] += float(savings["saved_stage_time_s"])
+            stats["estimated_saved_prompt_tokens"] += int(savings["saved_prompt_tokens"])
+            stats["estimated_saved_completion_tokens"] += int(
+                savings["saved_completion_tokens"])
+            stats["estimated_saved_total_tokens"] += int(savings["saved_total_tokens"])
             stats["instances"].add(instance_id)
 
     rows: list[dict[str, Any]] = []
@@ -354,7 +525,80 @@ def build_cache_hits_by_agent_tool_signature(
             "cache_hits": stats["cache_hits"],
             "cache_hit_pct": safe_div(stats["cache_hits"], stats["turns_total"]) * 100.0,
             "executed_requests": stats["executed_requests"],
+            "avg_executed_request_latency_s": safe_div(
+                stats["total_request_latency_s"], stats["executed_requests"]),
+            "total_prompt_tokens": stats["total_prompt_tokens"],
+            "total_completion_tokens": stats["total_completion_tokens"],
+            "total_tokens": stats["total_tokens"],
+            "lm_tokens_per_s": safe_div(stats["total_tokens"],
+                                         stats["total_request_latency_s"]),
+            "avg_prompt_tokens_per_executed_request": safe_div(
+                stats["total_prompt_tokens"], stats["executed_requests"]),
+            "avg_completion_tokens_per_executed_request": safe_div(
+                stats["total_completion_tokens"], stats["executed_requests"]),
+            "estimated_saved_lm_time_s": stats["estimated_saved_lm_time_s"],
+            "estimated_saved_stage_time_s": stats["estimated_saved_stage_time_s"],
+            "estimated_saved_prompt_tokens": stats["estimated_saved_prompt_tokens"],
+            "estimated_saved_completion_tokens": stats[
+                "estimated_saved_completion_tokens"],
+            "estimated_saved_total_tokens": stats["estimated_saved_total_tokens"],
             "num_instances": len(stats["instances"]),
+        })
+    return rows
+
+
+def build_throughput_by_instance(
+    reuse_replays: list[dict[str, Any]],
+    *,
+    pairwise_summary: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
+    if pairwise_summary is not None:
+        rows: list[dict[str, Any]] = []
+        for row in pairwise_summary["rows"]:
+            rows.append({
+                "instance_id": row["instance_id"],
+                "baseline_vllm_requests": row["baseline_vllm_requests"],
+                "reuse_vllm_requests_executed": row["reuse_vllm_requests_executed"],
+                "reuse_vllm_requests_avoided": row["reuse_vllm_requests_avoided"],
+                "baseline_wall_tokens_per_s": row["baseline_wall_tokens_per_s"],
+                "reuse_wall_tokens_per_s": row["reuse_wall_tokens_per_s"],
+                "baseline_lm_tokens_per_s": row["baseline_lm_tokens_per_s"],
+                "reuse_lm_tokens_per_s": row["reuse_lm_tokens_per_s"],
+                "baseline_avg_request_latency_s": row["baseline_avg_request_latency_s"],
+                "reuse_avg_request_latency_s": row["reuse_avg_request_latency_s"],
+                "baseline_avg_prompt_tokens_per_request": row[
+                    "baseline_avg_prompt_tokens_per_request"],
+                "reuse_avg_prompt_tokens_per_executed_request": row[
+                    "reuse_avg_prompt_tokens_per_executed_request"],
+                "baseline_avg_completion_tokens_per_request": row[
+                    "baseline_avg_completion_tokens_per_request"],
+                "reuse_avg_completion_tokens_per_executed_request": row[
+                    "reuse_avg_completion_tokens_per_executed_request"],
+            })
+        return rows
+
+    rows = []
+    for replay in sorted(reuse_replays,
+                         key=lambda replay: str(replay.get("instance_id", ""))):
+        timing = replay.get("timing", {})
+        total_tokens = total_tokens_from_timing(replay)
+        wall_solve_time_s = float(timing.get("wall_solve_time_s", 0.0))
+        lm_only_solve_time_s = float(timing.get("lm_only_solve_time_s", 0.0))
+        executed_requests = executed_request_count(replay)
+        total_prompt_tokens = int(timing.get("total_prompt_tokens", 0))
+        total_completion_tokens = int(timing.get("total_completion_tokens", 0))
+        rows.append({
+            "instance_id": str(replay.get("instance_id", "")),
+            "reuse_vllm_requests_executed": executed_requests,
+            "reuse_vllm_requests_avoided": cache_hit_count(replay),
+            "reuse_wall_tokens_per_s": safe_div(total_tokens, wall_solve_time_s),
+            "reuse_lm_tokens_per_s": safe_div(total_tokens, lm_only_solve_time_s),
+            "reuse_avg_request_latency_s": safe_div(lm_only_solve_time_s,
+                                                     executed_requests),
+            "reuse_avg_prompt_tokens_per_executed_request": safe_div(
+                total_prompt_tokens, executed_requests),
+            "reuse_avg_completion_tokens_per_executed_request": safe_div(
+                total_completion_tokens, executed_requests),
         })
     return rows
 
@@ -538,6 +782,8 @@ def write_analysis_plots(
     pairwise_rows: list[dict[str, Any]],
     cache_hits_by_agent: list[dict[str, Any]],
     cache_hits_by_tool_signature: list[dict[str, Any]],
+    savings_by_agent: list[dict[str, Any]],
+    savings_by_tool_signature: list[dict[str, Any]],
     top_n_tools: int,
 ) -> list[Path]:
     paths: list[Path] = []
@@ -606,6 +852,37 @@ def write_analysis_plots(
         )
         paths.append(tool_path)
 
+    if savings_by_agent:
+        agent_savings_path = output_dir / "saved_lm_time_by_agent.svg"
+        write_single_bar_svg(
+            agent_savings_path,
+            title="Estimated Saved LM Time by Agent",
+            labels=[row["agent"] for row in savings_by_agent],
+            values=[float(row["estimated_saved_lm_time_s"]) for row in savings_by_agent],
+            annotations=[
+                f"{int(row['cache_hits'])} cache hits" for row in savings_by_agent
+            ],
+            color="#d97904",
+            x_axis_label="estimated_saved_lm_time_s",
+        )
+        paths.append(agent_savings_path)
+
+    if savings_by_tool_signature:
+        selected = savings_by_tool_signature[:top_n_tools]
+        tool_savings_path = output_dir / "saved_lm_time_by_tool_signature.svg"
+        write_single_bar_svg(
+            tool_savings_path,
+            title=f"Top {len(selected)} Tool Signatures by Estimated Saved LM Time",
+            labels=[row["tool_signature"] for row in selected],
+            values=[float(row["estimated_saved_lm_time_s"]) for row in selected],
+            annotations=[
+                f"{int(row['cache_hits'])} cache hits" for row in selected
+            ],
+            color="#d97904",
+            x_axis_label="estimated_saved_lm_time_s",
+        )
+        paths.append(tool_savings_path)
+
     return paths
 
 
@@ -661,6 +938,8 @@ def print_summary(
                 f"{row['cache_hit_pct']:.1f}",
                 int(row["executed_requests"]),
                 format_float(float(row["avg_executed_request_latency_s"])),
+                format_float(float(row["lm_tokens_per_s"])),
+                format_float(float(row["estimated_saved_lm_time_s"])),
             ] for row in cache_hits_by_agent],
             headers=[
                 "Agent",
@@ -669,6 +948,8 @@ def print_summary(
                 "HitPct",
                 "ExecReqs",
                 "AvgExecReqLatencyS",
+                "LmTokPerS",
+                "SavedLmS",
             ],
         )
         print()
@@ -684,6 +965,8 @@ def print_summary(
                 f"{row['cache_hit_pct']:.1f}",
                 int(row["executed_requests"]),
                 int(row["num_instances"]),
+                format_float(float(row["lm_tokens_per_s"])),
+                format_float(float(row["estimated_saved_lm_time_s"])),
             ] for row in top_rows],
             headers=[
                 "ToolSig",
@@ -692,6 +975,8 @@ def print_summary(
                 "HitPct",
                 "ExecReqs",
                 "Instances",
+                "LmTokPerS",
+                "SavedLmS",
             ],
         )
 
@@ -751,7 +1036,31 @@ def main() -> None:
     cache_hits_by_tool_signature = build_cache_hits_by_tool_signature(reuse_replays)
     cache_hits_by_agent_tool_signature = build_cache_hits_by_agent_tool_signature(
         reuse_replays)
+    throughput_by_instance = build_throughput_by_instance(
+        reuse_replays,
+        pairwise_summary=pairwise_summary,
+    )
     top_exact_repeats = build_top_exact_repeats(reuse_replays)[:args.top_n_exact_repeats]
+    savings_by_agent = sorted(
+        cache_hits_by_agent,
+        key=lambda row: (-float(row["estimated_saved_lm_time_s"]), -int(row["cache_hits"]),
+                         row["agent"]),
+    )
+    savings_by_tool_signature = sorted(
+        cache_hits_by_tool_signature,
+        key=lambda row: (-float(row["estimated_saved_lm_time_s"]), -int(row["cache_hits"]),
+                         row["tool_signature"]),
+    )
+    throughput_by_agent = sorted(
+        cache_hits_by_agent,
+        key=lambda row: (-float(row["lm_tokens_per_s"]), -int(row["executed_requests"]),
+                         row["agent"]),
+    )
+    throughput_by_tool_signature = sorted(
+        cache_hits_by_tool_signature,
+        key=lambda row: (-float(row["lm_tokens_per_s"]), -int(row["executed_requests"]),
+                         row["tool_signature"]),
+    )
 
     report = {
         "baseline_glob": args.baseline_glob,
@@ -759,9 +1068,14 @@ def main() -> None:
         "num_reuse_replays": len(reuse_paths),
         "num_baseline_replays": len(baseline_paths),
         "pairwise_summary": pairwise_summary,
+        "throughput_by_instance": throughput_by_instance,
+        "throughput_by_agent": throughput_by_agent,
+        "throughput_by_tool_signature": throughput_by_tool_signature,
         "cache_hits_by_agent": cache_hits_by_agent,
         "cache_hits_by_tool_signature": cache_hits_by_tool_signature,
         "cache_hits_by_agent_tool_signature": cache_hits_by_agent_tool_signature,
+        "savings_by_agent": savings_by_agent,
+        "savings_by_tool_signature": savings_by_tool_signature,
         "top_exact_repeats": top_exact_repeats,
     }
 
@@ -770,11 +1084,18 @@ def main() -> None:
 
     if pairwise_summary is not None:
         write_csv(args.output_dir / "pairwise_comparison.csv", pairwise_summary["rows"])
+    write_csv(args.output_dir / "throughput_by_instance.csv", throughput_by_instance)
+    write_csv(args.output_dir / "throughput_by_agent.csv", throughput_by_agent)
+    write_csv(args.output_dir / "throughput_by_tool_signature.csv",
+              throughput_by_tool_signature)
     write_csv(args.output_dir / "cache_hits_by_agent.csv", cache_hits_by_agent)
     write_csv(args.output_dir / "cache_hits_by_tool_signature.csv",
               cache_hits_by_tool_signature)
     write_csv(args.output_dir / "cache_hits_by_agent_tool_signature.csv",
               cache_hits_by_agent_tool_signature)
+    write_csv(args.output_dir / "savings_by_agent.csv", savings_by_agent)
+    write_csv(args.output_dir / "savings_by_tool_signature.csv",
+              savings_by_tool_signature)
     write_csv(args.output_dir / "top_exact_repeats.csv", top_exact_repeats)
 
     plot_paths = write_analysis_plots(
@@ -782,6 +1103,8 @@ def main() -> None:
         pairwise_rows=(pairwise_summary["rows"] if pairwise_summary is not None else []),
         cache_hits_by_agent=cache_hits_by_agent,
         cache_hits_by_tool_signature=cache_hits_by_tool_signature,
+        savings_by_agent=savings_by_agent,
+        savings_by_tool_signature=savings_by_tool_signature,
         top_n_tools=args.top_n_tools,
     )
 

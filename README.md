@@ -324,14 +324,21 @@ This writes:
 
 - `reuse-analysis/reuse_analysis_report.json`
 - `reuse-analysis/pairwise_comparison.csv`
+- `reuse-analysis/throughput_by_instance.csv`
+- `reuse-analysis/throughput_by_agent.csv`
+- `reuse-analysis/throughput_by_tool_signature.csv`
 - `reuse-analysis/cache_hits_by_agent.csv`
 - `reuse-analysis/cache_hits_by_tool_signature.csv`
 - `reuse-analysis/cache_hits_by_agent_tool_signature.csv`
+- `reuse-analysis/savings_by_agent.csv`
+- `reuse-analysis/savings_by_tool_signature.csv`
 - `reuse-analysis/top_exact_repeats.csv`
 - `reuse-analysis/jct_comparison.svg`
 - `reuse-analysis/request_comparison.svg`
 - `reuse-analysis/cache_hits_by_agent.svg`
 - `reuse-analysis/cache_hits_by_tool_signature.svg`
+- `reuse-analysis/saved_lm_time_by_agent.svg`
+- `reuse-analysis/saved_lm_time_by_tool_signature.svg`
 
 Use `--reuse-glob` by itself if you only want cache-hit analysis on reuse runs and do not need baseline-vs-reuse comparisons.
 
