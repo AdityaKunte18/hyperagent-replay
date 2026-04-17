@@ -1,0 +1,256 @@
+{
+  "matplotlib__matplotlib-18869": [
+    {
+      "Request_arrival_time": 1776401132.2776852
+    },
+    {
+      "Request_departure_time": 1776401140.0209408
+    },
+    {
+      "Request_arrival_time": 1776401140.0210767
+    },
+    {
+      "Request_departure_time": 1776401143.2504373
+    },
+    {
+      "Request_arrival_time": 1776401143.4007685
+    },
+    {
+      "Request_departure_time": 1776401149.6989033
+    },
+    {
+      "Request_arrival_time": 1776401149.849226
+    },
+    {
+      "Request_departure_time": 1776401156.8376665
+    },
+    {
+      "Request_arrival_time": 1776401156.9878893
+    },
+    {
+      "Request_departure_time": 1776401161.083028
+    },
+    {
+      "Request_arrival_time": 1776401161.0831668
+    },
+    {
+      "Request_departure_time": 1776401168.9584327
+    },
+    {
+      "Request_arrival_time": 1776401168.958573
+    },
+    {
+      "Request_departure_time": 1776401175.410977
+    },
+    {
+      "Request_arrival_time": 1776401175.561332
+    },
+    {
+      "Request_departure_time": 1776401179.8542802
+    },
+    {
+      "Request_arrival_time": 1776401180.0045948
+    },
+    {
+      "Request_departure_time": 1776401198.7447364
+    },
+    {
+      "Request_arrival_time": 1776401198.7448905
+    },
+    {
+      "Request_departure_time": 1776401207.9110975
+    },
+    {
+      "Request_arrival_time": 1776401207.9112227
+    },
+    {
+      "Request_departure_time": 1776401212.657335
+    },
+    {
+      "Request_arrival_time": 1776401212.8075666
+    },
+    {
+      "Request_departure_time": 1776401235.1092808
+    },
+    {
+      "Request_arrival_time": 1776401235.4597244
+    },
+    {
+      "Request_departure_time": 1776401252.7400146
+    },
+    {
+      "Request_arrival_time": 1776401252.7401445
+    },
+    {
+      "Request_departure_time": 1776401258.9127498
+    },
+    {
+      "Request_arrival_time": 1776401258.9128711
+    },
+    {
+      "Request_departure_time": 1776401265.1270874
+    },
+    {
+      "Request_arrival_time": 1776401269.1273956
+    },
+    {
+      "Request_departure_time": 1776401275.4203298
+    },
+    {
+      "Request_arrival_time": 1776401275.4204476
+    },
+    {
+      "Request_departure_time": 1776401281.9735744
+    },
+    {
+      "Request_arrival_time": 1776401285.9738941
+    },
+    {
+      "Request_departure_time": 1776401288.6451144
+    },
+    {
+      "Request_arrival_time": 1776401288.645225
+    },
+    {
+      "Request_departure_time": 1776401296.5796995
+    },
+    {
+      "Request_arrival_time": 1776401296.5798156
+    },
+    {
+      "Request_departure_time": 1776401301.8875563
+    },
+    {
+      "Request_arrival_time": 1776401302.0378292
+    },
+    {
+      "Request_departure_time": 1776401308.4169443
+    },
+    {
+      "Request_arrival_time": 1776401308.7672174
+    },
+    {
+      "Request_departure_time": 1776401317.6430154
+    },
+    {
+      "Request_arrival_time": 1776401317.9933388
+    },
+    {
+      "Request_departure_time": 1776401331.1052
+    },
+    {
+      "Request_arrival_time": 1776401331.4554293
+    },
+    {
+      "Request_departure_time": 1776401336.5668557
+    },
+    {
+      "Request_arrival_time": 1776401336.7171254
+    },
+    {
+      "Request_departure_time": 1776401338.8125885
+    },
+    {
+      "Request_arrival_time": 1776401338.8126965
+    },
+    {
+      "Request_departure_time": 1776401343.1293738
+    },
+    {
+      "Request_arrival_time": 1776401343.2796395
+    },
+    {
+      "Request_departure_time": 1776401350.0577354
+    },
+    {
+      "Request_arrival_time": 1776401350.057842
+    },
+    {
+      "Request_departure_time": 1776401358.3794024
+    },
+    {
+      "Request_arrival_time": 1776401358.3795235
+    },
+    {
+      "Request_departure_time": 1776401363.0223093
+    },
+    {
+      "Request_arrival_time": 1776401363.1725733
+    },
+    {
+      "Request_departure_time": 1776401380.9372232
+    },
+    {
+      "Request_arrival_time": 1776401381.2876039
+    },
+    {
+      "Request_departure_time": 1776401389.2256646
+    },
+    {
+      "Request_arrival_time": 1776401389.3758924
+    },
+    {
+      "Request_departure_time": 1776401408.7067869
+    },
+    {
+      "Request_arrival_time": 1776401408.7068932
+    },
+    {
+      "Request_departure_time": 1776401414.7975228
+    },
+    {
+      "Request_arrival_time": 1776401414.7976773
+    },
+    {
+      "Request_departure_time": 1776401421.907759
+    },
+    {
+      "Request_arrival_time": 1776401425.9082274
+    },
+    {
+      "Request_departure_time": 1776401434.164565
+    },
+    {
+      "Request_arrival_time": 1776401438.1648245
+    },
+    {
+      "Request_departure_time": 1776401444.7942905
+    },
+    {
+      "Request_arrival_time": 1776401444.7943888
+    },
+    {
+      "Request_departure_time": 1776401449.6702201
+    },
+    {
+      "Request_arrival_time": 1776401449.8204656
+    },
+    {
+      "Request_departure_time": 1776401456.6863263
+    },
+    {
+      "Request_arrival_time": 1776401457.0365896
+    },
+    {
+      "Request_departure_time": 1776401461.9777656
+    },
+    {
+      "Request_arrival_time": 1776401462.1280158
+    },
+    {
+      "Request_departure_time": 1776401479.8525233
+    },
+    {
+      "Request_arrival_time": 1776401480.202865
+    },
+    {
+      "Request_departure_time": 1776401508.481407
+    },
+    {
+      "Request_arrival_time": 1776401508.481491
+    },
+    {
+      "Request_departure_time": 1776401512.274974
+    }
+  ]
+}
