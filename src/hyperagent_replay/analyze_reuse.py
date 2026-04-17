@@ -780,6 +780,9 @@ def write_analysis_plots(
     output_dir: Path,
     *,
     pairwise_rows: list[dict[str, Any]],
+    throughput_by_instance: list[dict[str, Any]],
+    throughput_by_agent: list[dict[str, Any]],
+    throughput_by_tool_signature: list[dict[str, Any]],
     cache_hits_by_agent: list[dict[str, Any]],
     cache_hits_by_tool_signature: list[dict[str, Any]],
     savings_by_agent: list[dict[str, Any]],
@@ -819,6 +822,96 @@ def write_analysis_plots(
             x_axis_label="executed_vllm_requests",
         )
         paths.append(req_path)
+
+    if throughput_by_instance:
+        wall_tp_path = output_dir / "throughput_wall_by_instance.svg"
+        write_grouped_bar_svg(
+            wall_tp_path,
+            title="Wall Throughput by Instance",
+            labels=[row["instance_id"] for row in throughput_by_instance],
+            series_names=(
+                ["baseline_wall", "reuse_wall"]
+                if "baseline_wall_tokens_per_s" in throughput_by_instance[0]
+                else ["reuse_wall"]
+            ),
+            series_values=(
+                [
+                    [
+                        float(row["baseline_wall_tokens_per_s"])
+                        for row in throughput_by_instance
+                    ],
+                    [
+                        float(row["reuse_wall_tokens_per_s"])
+                        for row in throughput_by_instance
+                    ],
+                ]
+                if "baseline_wall_tokens_per_s" in throughput_by_instance[0]
+                else [[float(row["reuse_wall_tokens_per_s"]) for row in throughput_by_instance]]
+            ),
+            colors=(["#c35a3a", "#3a7bd5"]
+                    if "baseline_wall_tokens_per_s" in throughput_by_instance[0]
+                    else ["#3a7bd5"]),
+            x_axis_label="tokens_per_second_over_wall_time",
+        )
+        paths.append(wall_tp_path)
+
+        lm_tp_path = output_dir / "throughput_lm_by_instance.svg"
+        write_grouped_bar_svg(
+            lm_tp_path,
+            title="LM-Only Throughput by Instance",
+            labels=[row["instance_id"] for row in throughput_by_instance],
+            series_names=(
+                ["baseline_lm", "reuse_lm"]
+                if "baseline_lm_tokens_per_s" in throughput_by_instance[0]
+                else ["reuse_lm"]
+            ),
+            series_values=(
+                [
+                    [float(row["baseline_lm_tokens_per_s"]) for row in throughput_by_instance],
+                    [float(row["reuse_lm_tokens_per_s"]) for row in throughput_by_instance],
+                ]
+                if "baseline_lm_tokens_per_s" in throughput_by_instance[0]
+                else [[float(row["reuse_lm_tokens_per_s"]) for row in throughput_by_instance]]
+            ),
+            colors=(["#c35a3a", "#3a7bd5"]
+                    if "baseline_lm_tokens_per_s" in throughput_by_instance[0]
+                    else ["#3a7bd5"]),
+            x_axis_label="tokens_per_second_over_executed_lm_time",
+        )
+        paths.append(lm_tp_path)
+
+    if throughput_by_agent:
+        agent_tp_path = output_dir / "throughput_by_agent.svg"
+        write_single_bar_svg(
+            agent_tp_path,
+            title="LM Throughput by Agent",
+            labels=[row["agent"] for row in throughput_by_agent],
+            values=[float(row["lm_tokens_per_s"]) for row in throughput_by_agent],
+            annotations=[
+                f"{int(row['executed_requests'])} executed requests"
+                for row in throughput_by_agent
+            ],
+            color="#0b7285",
+            x_axis_label="tokens_per_second_over_executed_lm_time",
+        )
+        paths.append(agent_tp_path)
+
+    if throughput_by_tool_signature:
+        selected = throughput_by_tool_signature[:top_n_tools]
+        tool_tp_path = output_dir / "throughput_by_tool_signature.svg"
+        write_single_bar_svg(
+            tool_tp_path,
+            title=f"Top {len(selected)} Tool Signatures by LM Throughput",
+            labels=[row["tool_signature"] for row in selected],
+            values=[float(row["lm_tokens_per_s"]) for row in selected],
+            annotations=[
+                f"{int(row['executed_requests'])} executed requests"
+                for row in selected
+            ],
+            color="#0b7285",
+            x_axis_label="tokens_per_second_over_executed_lm_time",
+        )
+        paths.append(tool_tp_path)
 
     if cache_hits_by_agent:
         agent_path = output_dir / "cache_hits_by_agent.svg"
@@ -1101,6 +1194,9 @@ def main() -> None:
     plot_paths = write_analysis_plots(
         args.output_dir,
         pairwise_rows=(pairwise_summary["rows"] if pairwise_summary is not None else []),
+        throughput_by_instance=throughput_by_instance,
+        throughput_by_agent=throughput_by_agent,
+        throughput_by_tool_signature=throughput_by_tool_signature,
         cache_hits_by_agent=cache_hits_by_agent,
         cache_hits_by_tool_signature=cache_hits_by_tool_signature,
         savings_by_agent=savings_by_agent,

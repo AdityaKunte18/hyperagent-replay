@@ -335,6 +335,10 @@ This writes:
 - `reuse-analysis/top_exact_repeats.csv`
 - `reuse-analysis/jct_comparison.svg`
 - `reuse-analysis/request_comparison.svg`
+- `reuse-analysis/throughput_wall_by_instance.svg`
+- `reuse-analysis/throughput_lm_by_instance.svg`
+- `reuse-analysis/throughput_by_agent.svg`
+- `reuse-analysis/throughput_by_tool_signature.svg`
 - `reuse-analysis/cache_hits_by_agent.svg`
 - `reuse-analysis/cache_hits_by_tool_signature.svg`
 - `reuse-analysis/saved_lm_time_by_agent.svg`
