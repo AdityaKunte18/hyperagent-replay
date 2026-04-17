@@ -23,6 +23,7 @@ ha-trace-replay-reuse = "hyperagent_replay.replay_reuse:main"
 ha-trace-derive-slos = "hyperagent_replay.derive_slos_and_resource_groups:main"
 ha-trace-slo-report = "hyperagent_replay.slo_report:main"
 ha-trace-derive-empirical-slos = "hyperagent_replay.empirical_slos:main"
+ha-trace-analyze-reuse = "hyperagent_replay.analyze_reuse:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

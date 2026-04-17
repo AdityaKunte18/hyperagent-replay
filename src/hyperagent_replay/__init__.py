@@ -13,4 +13,5 @@ __all__ = [
     "derive_slos_and_resource_groups",
     "slo_report",
     "empirical_slos",
+    "analyze_reuse",
 ]

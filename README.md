@@ -309,6 +309,32 @@ The script recommends:
 - interactive targets = per-agent `p95`
 - batch targets = per-agent `p99`
 
+## Reuse Analysis
+
+You can analyze baseline versus reuse replay runs and write a full artifact bundle with pairwise comparisons, cache-hit breakdowns, and SVG plots:
+
+```bash
+ha-trace-analyze-reuse \
+  --baseline-glob "replays-two/*.baseline.replay.json" \
+  --reuse-glob "replays-two/*.reuse.replay.json" \
+  --output-dir reuse-analysis
+```
+
+This writes:
+
+- `reuse-analysis/reuse_analysis_report.json`
+- `reuse-analysis/pairwise_comparison.csv`
+- `reuse-analysis/cache_hits_by_agent.csv`
+- `reuse-analysis/cache_hits_by_tool_signature.csv`
+- `reuse-analysis/cache_hits_by_agent_tool_signature.csv`
+- `reuse-analysis/top_exact_repeats.csv`
+- `reuse-analysis/jct_comparison.svg`
+- `reuse-analysis/request_comparison.svg`
+- `reuse-analysis/cache_hits_by_agent.svg`
+- `reuse-analysis/cache_hits_by_tool_signature.svg`
+
+Use `--reuse-glob` by itself if you only want cache-hit analysis on reuse runs and do not need baseline-vs-reuse comparisons.
+
 ## SLO Derivation
 
 You can derive proxy SLOs and resource groups directly from trajectory JSON files:
