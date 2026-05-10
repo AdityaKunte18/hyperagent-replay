@@ -7,6 +7,7 @@
 - replaying those turns against a running `vllm serve` endpoint
 - measuring solve-time and per-turn latency metrics
 - running the workflow over one file or many files
+- Running hyperagent system w/ vllm
 
 ## Python version
 
